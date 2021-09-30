@@ -34,6 +34,7 @@ dependencies:
   firebase_auth: ^3.1.1
   firebase_core: ^1.6.0
   cloud_firestore: ^2.5.3
+  provider: ^4.3.3
 
 dev_dependencies:
   flutter_test:
@@ -51,6 +52,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/
+    - assets/images/Icon_taco.png
 
   # To add assets to your application, add an assets section, like this:
   # assets:
