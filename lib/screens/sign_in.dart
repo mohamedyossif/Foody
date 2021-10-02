@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:food_app/custom_button.dart';
-import 'package:food_app/custom_text_field.dart';
+import 'package:food_app/screens/item_details.dart';
+import 'package:food_app/widgets/custom_button.dart';
+import 'package:food_app/widgets/custom_text_field.dart';
+
+import 'home_screen.dart';
 
 class SignInScreen extends StatelessWidget {
   static const String id = 'SignInScreen';
@@ -9,39 +12,44 @@ class SignInScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
-          child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Text(
-            'Welcome Back!',
-            style: TextStyle(
-                color: Color(0xffd8434d),
-                fontSize: 50,
-                fontWeight: FontWeight.w700),
-          ),
-          Image.asset('assets/salad.png'),
-          CustomTextField(
-            icon: Icons.email,
-            labelText: 'Email',
-            function: (value) {
-              //TODO: implement firebase auth
-            },
-          ),
-          CustomTextField(
-            icon: Icons.password,
-            labelText: 'Password',
-            obscure: true,
-            function: (value) {
-              //TODO: implement firebase auth
-            },
-          ),
-          CustomButton(
-              text: 'Sign In',
-              function: () {
-                //TODO: Navigate to home screen
-              })
-        ],
+          child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Text(
+              'Welcome Back!',
+              style: TextStyle(
+                  color: const Color(0xffD4361C), fontSize: 50, fontWeight: FontWeight.w700),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(30),
+              child: Image.asset('assets/images/salad.png'),
+            ),
+            CustomTextField(
+              icon: Icons.email,
+              labelText: 'Email',
+              function: (value) {
+                //TODO: implement firebase auth
+              },
+            ),
+            CustomTextField(
+              icon: Icons.lock,
+              labelText: 'Password',
+              obscure: true,
+              function: (value) {
+                //TODO: implement firebase auth
+              },
+            ),
+            CustomButton(
+                text: 'Sign In',
+                function: () {
+                  //TODO: Navigate to home screen
+                  Navigator.pushNamed(context, HomeScreen.id);
+                })
+          ],
+        ),
       )),
     );
   }

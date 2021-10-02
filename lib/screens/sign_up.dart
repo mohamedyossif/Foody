@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:food_app/custom_button.dart';
-
-import '../custom_text_field.dart';
+import 'package:food_app/widgets/custom_button.dart';
+import 'package:food_app/screens/home_screen.dart';
+import '../widgets/custom_text_field.dart';
 
 class SignUpScreen extends StatelessWidget {
   static const String id = 'SignUpScreen';
@@ -10,46 +10,66 @@ class SignUpScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
+          child: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
           child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Text(
-            'Welcome!',
-            style: TextStyle(
-                color: Color(0xffd8434d),
-                fontSize: 50,
-                fontWeight: FontWeight.w700),
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Text(
+                'Welcome!',
+                style: TextStyle(
+                    color: const Color(0xffD4361C), fontSize: 50, fontWeight: FontWeight.w700),
+              ),
+              Padding(
+                  padding: const EdgeInsets.all(30),
+                  child: Image.asset('assets/images/deliveryman.jpg')),
+              CustomTextField(
+                icon: Icons.person,
+                labelText: 'Username',
+                function: (value) {
+                  //TODO: implement firebase auth
+                },
+              ),
+              CustomTextField(
+                icon: Icons.home,
+                labelText: 'Address',
+                function: (value) {
+                  //TODO: implement firebase auth
+                },
+              ),
+              CustomTextField(
+                icon: Icons.phone,
+                labelText: 'Mobile number',
+                function: (value) {
+                  //TODO: implement firebase auth
+                },
+              ),
+              CustomTextField(
+                icon: Icons.email,
+                labelText: 'Email',
+                function: (value) {
+                  //TODO: implement firebase auth
+                },
+              ),
+              CustomTextField(
+                icon: Icons.lock,
+                labelText: 'Password',
+                obscure: true,
+                function: (value) {
+                  //TODO: implement firebase auth
+                },
+              ),
+              CustomButton(
+                  text: 'Sign Up',
+                  function: () {
+                    //TODO: Navigate to home screen
+                    Navigator.pushNamed(context, HomeScreen.id);
+                  })
+            ],
           ),
-          Image.asset('assets/deliveryman.jpg'),
-          CustomTextField(
-            icon: Icons.person,
-            labelText: 'Username',
-            function: (value) {
-              //TODO: implement firebase auth
-            },
-          ),
-          CustomTextField(
-            icon: Icons.email,
-            labelText: 'Email',
-            function: (value) {
-              //TODO: implement firebase auth
-            },
-          ),
-          CustomTextField(
-            icon: Icons.password,
-            labelText: 'Password',
-            obscure: true,
-            function: (value) {
-              //TODO: implement firebase auth
-            },
-          ),
-          CustomButton(
-              text: 'Sign Up',
-              function: () {
-                //TODO: Navigate to home screen
-              })
-        ],
+        ),
       )),
     );
   }

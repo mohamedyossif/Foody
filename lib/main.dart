@@ -12,7 +12,7 @@ import 'package:provider/provider.dart';
 
 import 'my_provider.dart';
 
-void main()async {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
@@ -25,18 +25,20 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return  ChangeNotifierProvider<MyProvider>(
-        create: (BuildContext ctx) => MyProvider(),
-    child: MaterialApp(
-      debugShowCheckedModeBanner: false,
-      routes: {
-        SplashScreen.id: (context) => SplashScreen(),
-        WelcomeScreen.id: (context) => WelcomeScreen(),
-        SignUpScreen.id: (context) => SignUpScreen(),
-        SignInScreen.id: (context) => SignInScreen(),
-        ItemDetailsScreen.id: (context) => ItemDetailsScreen(),
-      },
-      initialRoute: SplashScreen.id,
-    ),);
+    return ChangeNotifierProvider<MyProvider>(
+      create: (BuildContext ctx) => MyProvider(),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        routes: {
+          SplashScreen.id: (context) => SplashScreen(),
+          WelcomeScreen.id: (context) => WelcomeScreen(),
+          SignUpScreen.id: (context) => SignUpScreen(),
+          SignInScreen.id: (context) => SignInScreen(),
+          HomeScreen.id: (context) => HomeScreen(),
+          ItemDetailsScreen.id: (context) => ItemDetailsScreen(),
+        },
+        initialRoute: SplashScreen.id,
+      ),
+    );
   }
 }

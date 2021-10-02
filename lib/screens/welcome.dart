@@ -2,7 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:food_app/screens/sign_in.dart';
 import 'package:food_app/screens/sign_up.dart';
-import 'package:food_app/custom_button.dart';
+import 'package:food_app/widgets/custom_button.dart';
 
 class WelcomeScreen extends StatelessWidget {
   static const String id = 'WelcomeScreen';
@@ -19,23 +19,20 @@ class WelcomeScreen extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.all(15),
                   child: Image.asset(
-                    'assets/pizza.jpg',
+                    'assets/images/pizza.jpg',
                   ),
                 ),
-                Image.asset('assets/frenchFries.jpg'),
-                Image.asset('assets/burger.jpg'),
+                Image.asset('assets/images/frenchFries.jpg'),
+                Image.asset('assets/images/burger.jpg'),
               ],
               options: CarouselOptions(
-                  enlargeCenterPage: true,
-                  height: MediaQuery.of(context).size.height * 40 / 100),
+                  enlargeCenterPage: true, height: MediaQuery.of(context).size.height * 40 / 100),
             ),
             Center(
               child: Text(
                 'Enjoy\n\t\tTasty\n\t\t\t\tFood',
                 style: TextStyle(
-                    color: Color(0xff040404),
-                    fontSize: 50,
-                    fontWeight: FontWeight.w700),
+                    color: const Color(0xff040404), fontSize: 50, fontWeight: FontWeight.w700),
               ),
             ),
             CustomButton(
@@ -49,15 +46,13 @@ class WelcomeScreen extends StatelessWidget {
                 Text(
                   'Already have an account? ',
                   style: TextStyle(
-                      color: Color(0xff040404),
-                      fontSize: 20,
-                      fontWeight: FontWeight.w500),
+                      color: const Color(0xff040404), fontSize: 20, fontWeight: FontWeight.w500),
                 ),
                 GestureDetector(
                   child: Text(
                     'Sign In',
                     style: TextStyle(
-                      color: Color(0xff040404),
+                      color: const Color(0xff040404),
                       fontSize: 20,
                       fontWeight: FontWeight.w700,
                       decoration: TextDecoration.underline,

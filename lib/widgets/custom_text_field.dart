@@ -20,14 +20,14 @@ class _CustomTextFieldState extends State<CustomTextField> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(4),
+      padding: const EdgeInsets.all(8),
       child: TextFormField(
         obscureText: widget.obscure,
         decoration: InputDecoration(
-            icon: Icon(
+            prefixIcon: Icon(
               widget.icon,
               size: 35,
-              color: Color(0xffF54749),
+              color: const Color(0xffF54749),
             ),
             label: Text(widget.labelText),
             border: OutlineInputBorder(),
