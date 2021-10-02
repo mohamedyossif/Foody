@@ -46,7 +46,7 @@ class SignInScreen extends StatelessWidget {
                 text: 'Sign In',
                 function: () {
                   //TODO: Navigate to home screen
-                  Navigator.pushNamed(context, HomeScreen.id);
+                  Navigator.pushNamed(context, ItemDetailsScreen.id);
                 })
           ],
         ),

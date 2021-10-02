@@ -24,7 +24,7 @@ class ItemDetailsScreen extends StatelessWidget {
 }
 
 class Screen extends StatelessWidget {
-  String description = 'beef burger' * 40;
+  String description = 'beef burger' * 20;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,7 +47,7 @@ class Screen extends StatelessWidget {
                     margin: EdgeInsets.only(
                       top: MediaQuery.of(context).size.height * 30 / 100,
                     ),
-                    height: (1.9 * description.length).toDouble(),
+                    height: MediaQuery.of(context).size.height,
                     decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.vertical(top: Radius.elliptical(100, 100))))
@@ -107,13 +107,27 @@ class Screen extends StatelessWidget {
                           colorClickableText: Colors.black,
                           lessStyle: TextStyle(fontWeight: FontWeight.w800, color: Colors.black),
                           moreStyle: TextStyle(fontWeight: FontWeight.w800, color: Colors.black),
+                          callback: (value) {},
                         ),
                         SizedBox(
-                          height: 60,
-                          width: 60,
+                          height: 90,
+                          width: 90,
                           child: ListView(
                             scrollDirection: Axis.horizontal,
                             children: [
+                              DetailsIcon(
+                                icon: 'assets/images/Icon_taco.png',
+                              ),
+                              DetailsIcon(
+                                icon: 'assets/images/Icon_taco.png',
+                              ),
+                              DetailsIcon(
+                                icon: 'assets/images/Icon_taco.png',
+                              ),
+                              DetailsIcon(
+                                icon: 'assets/images/Icon_taco.png',
+                                text: 'beef',
+                              ),
                               DetailsIcon(
                                 icon: 'assets/images/Icon_taco.png',
                               ),
@@ -142,6 +156,18 @@ class Screen extends StatelessWidget {
                           child: ListView(
                             scrollDirection: Axis.horizontal,
                             children: [
+                              DetailsIcon(
+                                icon: 'assets/images/Icon_taco.png',
+                              ),
+                              DetailsIcon(
+                                icon: 'assets/images/Icon_taco.png',
+                              ),
+                              DetailsIcon(
+                                icon: 'assets/images/Icon_taco.png',
+                              ),
+                              DetailsIcon(
+                                icon: 'assets/images/Icon_taco.png',
+                              ),
                               DetailsIcon(
                                 icon: 'assets/images/Icon_taco.png',
                               ),
