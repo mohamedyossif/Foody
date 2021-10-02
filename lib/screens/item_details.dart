@@ -47,7 +47,7 @@ class Screen extends StatelessWidget {
                     margin: EdgeInsets.only(
                       top: MediaQuery.of(context).size.height * 30 / 100,
                     ),
-                    height: MediaQuery.of(context).size.height,
+                    height: MediaQuery.of(context).size.height * 60 / 100 + description.length,
                     decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.vertical(top: Radius.elliptical(100, 100))))
