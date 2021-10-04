@@ -2,7 +2,6 @@ import 'package:flutter/foundation.dart';
 
 class SignUpProvider extends ChangeNotifier {
   bool isLoading = false;
-
   void loading() {
     isLoading = true;
     print(isLoading);
@@ -20,7 +19,6 @@ class SignUpProvider extends ChangeNotifier {
 
 class SignInProvider extends ChangeNotifier {
   bool isLoading = false;
-
   void loading() {
     isLoading = true;
     print(isLoading);

@@ -1,32 +1,31 @@
 import 'package:flutter/material.dart';
-import 'package:food_app/services/sign_provider.dart';
 import 'package:food_app/widgets/custom_button.dart';
 import 'package:food_app/widgets/custom_text_field.dart';
 import 'package:loading_overlay/loading_overlay.dart';
-import 'package:provider/provider.dart';
 import 'package:food_app/services/auth_firebase.dart';
 import 'home_screen.dart';
 import 'package:flutter/rendering.dart';
 
-class SignInScreen extends StatelessWidget {
+class SignInScreen extends StatefulWidget {
   static const String id = 'SignInScreen';
 
   @override
-  Widget build(BuildContext context) {
-    return ChangeNotifierProvider(create: (_) => SignInProvider(), child: Screen());
-  }
+  State<SignInScreen> createState() => _SignInScreenState();
 }
 
-class Screen extends StatelessWidget {
+class _SignInScreenState extends State<SignInScreen> {
+  @override
   String email = '';
+
   String password = '';
 
-  @override
+  bool isLoading = false;
+
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       body: LoadingOverlay(
-        isLoading: Provider.of<SignInProvider>(context).isLoading,
+        isLoading: isLoading,
         child: SafeArea(
             child: Padding(
           padding: const EdgeInsets.all(8.0),
@@ -58,17 +57,19 @@ class Screen extends StatelessWidget {
                   password = value;
                 },
               ),
-              // Consumer<SignInProvider>(builder: (_, value, child) {
-              //   return CustomButton(
-              //       text: 'Sign In',
-              //       function: () async {
-              //         Provider.of<SignInProvider>(context, listen: false).loading();
-              //         await AuthFirebaseMethods()
-              //             .signInWithEmailAndPassword(context, email, password);
-              //         Navigator.pushNamed(context, HomeScreen.id);
-              //         Provider.of<SignInProvider>(context, listen: false).signed();
-              //       });
-              // })
+              CustomButton(
+                  text: 'Sign In',
+                  function: () async {
+                    setState(() {
+                      isLoading = true;
+                    });
+                    await AuthFirebaseMethods()
+                        .signInWithEmailAndPassword(context, email, password);
+                    Navigator.pushNamed(context, HomeScreen.id);
+                    setState(() {
+                      isLoading = false;
+                    });
+                  })
             ],
           ),
         )),
