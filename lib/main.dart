@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/services.dart';
+import 'package:food_app/screens/profile_screen.dart';
 import 'screens/splash.dart';
 import 'screens/welcome.dart';
 import 'screens/sign_up.dart';
@@ -36,6 +37,7 @@ class MyApp extends StatelessWidget {
           SignInScreen.id: (context) => SignInScreen(),
           HomeScreen.id: (context) => HomeScreen(),
           ItemDetailsScreen.id: (context) => ItemDetailsScreen(),
+          ProfileScreen.id: (context) => ProfileScreen(),
         },
         initialRoute: SplashScreen.id,
       ),

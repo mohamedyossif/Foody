@@ -35,57 +35,57 @@ class _SignUpScreenState extends State<SignUpScreen> {
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Text(
-                      'Welcome!',
-                      style: TextStyle(
-                          color: const Color(0xffD4361C), fontSize: 50, fontWeight: FontWeight.w700),
-                    ),
-                    Padding(
-                        padding: const EdgeInsets.all(30),
-                        child: Image.asset('assets/images/deliveryman.jpg')),
-                    CustomTextField(
-                      icon: Icons.person,
-                      labelText: 'Username',
-                      function: (value) {
-                        //TODO: implement firebase auth
-                      },
-                    ),
-                    CustomTextField(
-                      icon: Icons.home,
-                      labelText: 'Address',
-                      function: (value) {
-                        //TODO: implement firebase auth
-                      },
-                    ),
-                    CustomTextField(
-                      icon: Icons.phone,
-                      labelText: 'Mobile number',
-                      function: (value) {
-                        //TODO: implement firebase auth
-                      },
-                    ),
-                    CustomTextField(
-                      icon: Icons.email,
-                      labelText: 'Email',
-                      function: (value) {
-                        email = value;
-                      },
-                    ),
-                    CustomTextField(
-                      icon: Icons.lock,
-                      labelText: 'Password',
-                      obscure: true,
-                      function: (value) {
-                        password = value;
-                      },
-                    ),
-                    CustomButton(
-                        text: 'Sign Up',
-                        function: () async {
-                          setState(() {
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Text(
+                  'Welcome!',
+                  style: TextStyle(
+                      color: const Color(0xffD4361C), fontSize: 50, fontWeight: FontWeight.w700),
+                ),
+                Padding(
+                    padding: const EdgeInsets.all(30),
+                    child: Image.asset('assets/images/deliveryman.jpg')),
+                CustomTextField(
+                  icon: Icons.person,
+                  labelText: 'Username',
+                  function: (value) {
+                    //TODO: implement firebase auth
+                  },
+                ),
+                CustomTextField(
+                  icon: Icons.home,
+                  labelText: 'Address',
+                  function: (value) {
+                    //TODO: implement firebase auth
+                  },
+                ),
+                CustomTextField(
+                  icon: Icons.phone,
+                  labelText: 'Mobile number',
+                  function: (value) {
+                    //TODO: implement firebase auth
+                  },
+                ),
+                CustomTextField(
+                  icon: Icons.email,
+                  labelText: 'Email',
+                  function: (value) {
+                    email = value;
+                  },
+                ),
+                CustomTextField(
+                  icon: Icons.lock,
+                  labelText: 'Password',
+                  obscure: true,
+                  function: (value) {
+                    password = value;
+                  },
+                ),
+                CustomButton(
+                    text: 'Sign Up',
+                    function: () async {
+                      setState(() {
                         isLoading = true;
                       });
                       print(email + password);
@@ -96,10 +96,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         isLoading = false;
                       });
                     })
-                  ],
-                ),
-              ),
-            )),
+              ],
+            ),
+          ),
+        )),
       ),
     );
   }

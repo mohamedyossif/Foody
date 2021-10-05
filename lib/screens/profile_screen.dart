@@ -7,7 +7,7 @@ import 'package:food_app/widgets/customized_info_item.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ProfileScreen extends StatefulWidget {
-  static const String id = 'Profile Screen';
+  static const String id = 'ProfileScreen';
 
   @override
   _ProfileScreenState createState() => _ProfileScreenState();
@@ -44,11 +44,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 children: [
                   ClipOval(
                     child: image != null
-                          ? Image.file(image, width: 160, height: 160,fit: BoxFit.cover,)
-                          :FlutterLogo(size: 160,),
+                        ? Image.file(
+                            image,
+                            width: 160,
+                            height: 160,
+                            fit: BoxFit.cover,
+                          )
+                        : FlutterLogo(
+                            size: 160,
+                          ),
                   ),
                   Positioned(
-
                     child: GestureDetector(
                         onTap: () => pickImage(),
                         child: Icon(

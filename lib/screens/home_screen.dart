@@ -73,7 +73,7 @@ class HomeScreen extends StatelessWidget {
                           ),
                         ],
                         borderRadius: BorderRadius.circular(10.0),
-                            color: Provider.of<MyProvider>(context).selectedCategoryIcon
+                        color: Provider.of<MyProvider>(context).selectedCategoryIcon
                             ? secondaryColor
                             : Colors.grey.shade200,
                       ),
