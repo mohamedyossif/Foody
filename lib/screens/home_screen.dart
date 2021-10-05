@@ -8,7 +8,9 @@ import 'package:provider/provider.dart';
 import '../my_provider.dart';
 
 class HomeScreen extends StatelessWidget {
+
   static const String id = 'HomeScreen';
+
 
   bool selected = false;
 
@@ -93,7 +95,11 @@ class HomeScreen extends StatelessWidget {
                             child: Image(
                               height: 25.0,
                               width: 25.0,
+
                              image: AssetImage('assets/images/Icon_taco.png'),
+
+                              image: AssetImage('assets/images/Icon_taco.png'),
+
                             ),
                             backgroundColor: Colors.white,
                           ),
@@ -127,8 +133,12 @@ class HomeScreen extends StatelessWidget {
               decoration:
                   BoxDecoration(borderRadius: BorderRadius.circular(10.0)),
               child: GridView.builder(
+
                 itemBuilder: (context, index) {
                   return Stack(
+
+                itemBuilder: (context, index) => Stack(
+
                   alignment: Alignment.topRight,
                   children: [
                     Container(
@@ -143,11 +153,17 @@ class HomeScreen extends StatelessWidget {
                           Image(
                             height: 100.0,
                             width: 100.0,
+
                            image: AssetImage('assets/images/Icon_taco.png'),
                           ),
                           SizedBox(
                             height: 10.0,
                           ),
+
+                            image: AssetImage('assets/images/Icon_taco.png'),
+                          ),
+                          SizedBox(height: 10.0,),
+
                           Text(
                             'Beef Burger',
                             style: TextStyle(
@@ -173,6 +189,7 @@ class HomeScreen extends StatelessWidget {
                         ],
                       ),
                     ),
+
                     Consumer<MyProvider>(
                       builder: (_, value, child) {
                         return GestureDetector(
@@ -191,6 +208,25 @@ class HomeScreen extends StatelessWidget {
                                 ),
                         );
                       },
+
+                    Consumer<MyProvider>(builder: (_, value, child) {
+                      return GestureDetector(
+                        onTap: () =>
+                            Provider.of<MyProvider>(context, listen: false)
+                                .selectedFavItemFunc(),
+                        child: Provider.of<MyProvider>(context, listen: false)
+                                .selectedFav
+                            ? Icon(
+                                Icons.favorite,
+                                color: basicColor,
+                              )
+                            : Icon(
+                                Icons.favorite_outline,
+                                color: basicColor,
+                              ),
+                      );
+                    },
+
                     ),
                     //============================================== plus icon
                     //====================================================
@@ -201,7 +237,11 @@ class HomeScreen extends StatelessWidget {
                         child: Center(
                           child: Icon(
                             Icons.add,
+
                             size: 20.0,
+
+                           size: 20.0,
+
                             color: Colors.white,
                           ),
                         ),
@@ -218,6 +258,7 @@ class HomeScreen extends StatelessWidget {
                     //=================================== price
                     //==================================================
                     Positioned(
+
                       bottom: 10.0,
                       left: 10.0,
                       child: Text(
@@ -231,6 +272,19 @@ class HomeScreen extends StatelessWidget {
                   ],
                 );
                 },
+
+                        bottom: 10.0,
+                        left: 10.0,
+                        child: Text(
+                          '\$12.00',
+                          style: TextStyle(
+                              color: Colors.green,
+                              fontSize: 18.0,
+                              fontWeight: FontWeight.bold),
+                        ),),
+                  ],
+                ),
+
                 itemCount: 10,
                 gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
                   maxCrossAxisExtent: 200,

@@ -16,6 +16,11 @@ void main()async {
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   await Firebase.initializeApp();
+// w import 'package:provider/provider.dart';
+
+//w import 'my_provider.dart';
+
+void main() {
   runApp(MyApp());
 /*void main()async {
   //WidgetsFlutterBinding.ensureInitialized();
@@ -28,6 +33,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
+  // This widget is the root of your application.
+  @override
+  Widget build(BuildContext context) {
     return ChangeNotifierProvider<MyProvider>(
       create: (BuildContext ctx) => MyProvider(),
       child: MaterialApp(
@@ -48,6 +56,9 @@ class MyApp extends StatelessWidget {
       },
       initialRoute: ProfileScreen.id,
       ),);
+        home: HomeScreen(),
+      ),
+    );
   }
 }
 
