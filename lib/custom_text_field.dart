@@ -24,12 +24,13 @@ class _CustomTextFieldState extends State<CustomTextField> {
       child: TextFormField(
         obscureText: widget.obscure,
         decoration: InputDecoration(
+          labelText: widget.labelText,
             icon: Icon(
               widget.icon,
               size: 35,
               color: Color(0xffF54749),
             ),
-            label: Text(widget.labelText),
+            
             border: OutlineInputBorder(),
             errorText: widget.errorText),
         onSaved: widget.function,

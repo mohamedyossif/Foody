@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 class AuthFirebaseMethods {
   FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
-  Future signUpWithEmailAndPassword(context, email, password) async {
+  Future signUpWithEmailAndPassword(String email,String password) async {
     try {
       await _firebaseAuth.createUserWithEmailAndPassword(email: email, password: password);
     } on FirebaseAuthException catch (e) {

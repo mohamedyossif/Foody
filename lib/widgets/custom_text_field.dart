@@ -24,6 +24,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
       child: TextFormField(
         obscureText: widget.obscure,
         decoration: InputDecoration(
+          labelText: widget.labelText,
             prefixIcon: Padding(
               padding: const EdgeInsets.only(right: 10),
               child: Icon(
@@ -32,10 +33,10 @@ class _CustomTextFieldState extends State<CustomTextField> {
                 color: const Color(0xffF54749),
               ),
             ),
-            label: Text(widget.labelText),
+            
             border: OutlineInputBorder(),
             errorText: widget.errorText),
-        onSaved: widget.function,
+        onChanged: widget.function,
       ),
     );
   }

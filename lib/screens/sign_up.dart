@@ -22,7 +22,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   String password = '';
   bool isLoading = false;
-  FirebaseAuth _auth = FirebaseAuth.instance;
+ AuthFirebaseMethods authFirebaseMethods=AuthFirebaseMethods();
 
   @override
   Widget build(BuildContext context) {
@@ -89,8 +89,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         isLoading = true;
                       });
                       print(email + password);
-                      await AuthFirebaseMethods()
-                          .signUpWithEmailAndPassword(context, email, password);
+                      authFirebaseMethods.signUpWithEmailAndPassword(email, password);
                       Navigator.pushNamed(context, ItemDetailsScreen.id);
                       setState(() {
                         isLoading = false;
