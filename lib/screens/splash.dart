@@ -22,7 +22,7 @@ class _SplashScreenState extends State<SplashScreen> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Image.asset(
-        'assets/splashimage.png',
+        'assets/images/splashimage.png',
         fit: BoxFit.fitHeight,
       ),
     );
