@@ -127,7 +127,8 @@ class HomeScreen extends StatelessWidget {
               decoration:
                   BoxDecoration(borderRadius: BorderRadius.circular(10.0)),
               child: GridView.builder(
-                itemBuilder: (context, index) => Stack(
+                itemBuilder: (context, index) {
+                  return Stack(
                   alignment: Alignment.topRight,
                   children: [
                     Container(
@@ -228,7 +229,8 @@ class HomeScreen extends StatelessWidget {
                       ),
                     ),
                   ],
-                ),
+                );
+                },
                 itemCount: 10,
                 gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
                   maxCrossAxisExtent: 200,

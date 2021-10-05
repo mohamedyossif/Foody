@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:food_app/screens/home_screen.dart';
+import 'package:food_app/screens/profile_screen.dart';
 import 'package:provider/provider.dart';
 import 'my_provider.dart';
 import 'package:flutter/services.dart';
@@ -43,8 +44,9 @@ class MyApp extends StatelessWidget {
         SignInScreen.id: (context) => SignInScreen(),
         ItemDetailsScreen.id: (context) => ItemDetailsScreen(),
         HomeScreen.id: (context) => HomeScreen(),
+        ProfileScreen.id: (context) => ProfileScreen(),
       },
-      initialRoute: WelcomeScreen.id,
+      initialRoute: ProfileScreen.id,
       ),);
   }
 }

@@ -2,7 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:food_app/screens/sign_in.dart';
 import 'package:food_app/screens/sign_up.dart';
-import 'package:food_app/custom_button.dart';
+import 'package:food_app/widgets/custom_button.dart';
 
 class WelcomeScreen extends StatelessWidget {
   static const String id = 'WelcomeScreen';

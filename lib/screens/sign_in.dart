@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:food_app/custom_button.dart';
-import 'package:food_app/custom_text_field.dart';
+import 'package:food_app/widgets/custom_button.dart';
+import 'package:food_app/widgets/custom_text_field.dart';
 
 class SignInScreen extends StatelessWidget {
   static const String id = 'SignInScreen';
