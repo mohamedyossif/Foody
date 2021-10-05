@@ -15,7 +15,7 @@ class WelcomeScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             CarouselSlider(
-              items: [
+              items: <Widget>[
                 Padding(
                   padding: const EdgeInsets.all(15),
                   child: Image.asset(
