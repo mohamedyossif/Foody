@@ -29,10 +29,8 @@ class HomeScreen extends StatelessWidget {
                   TextSpan(text: 'Find The ', style: kTextTitleDecoration),
                   TextSpan(
                     text: 'Best\nFood',
-                    style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                        color: basicColor,
-                        fontSize: 40.0),
+                    style:
+                        TextStyle(fontWeight: FontWeight.w500, color: basicColor, fontSize: 40.0),
                   ),
                   TextSpan(text: ' Around You!', style: kTextTitleDecoration),
                 ],
@@ -47,17 +45,13 @@ class HomeScreen extends StatelessWidget {
               padding: const EdgeInsets.symmetric(vertical: 10.0),
               child: Text(
                 'Find',
-                style: TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 25.0),
+                style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 25.0),
               ),
             ),
             //=========================================== select category
             //=========================================================
             GestureDetector(
-              onTap: () => Provider.of<MyProvider>(context, listen: false)
-                  .selectedCategoryFunc(),
+              onTap: () => Provider.of<MyProvider>(context, listen: false).selectedCategoryFunc(),
               child: AnimatedContainer(
                 duration: Duration(seconds: 10),
                 height: 60.0,
@@ -66,8 +60,8 @@ class HomeScreen extends StatelessWidget {
                   shrinkWrap: true,
                   itemCount: 10,
                   itemBuilder: (context, index) => GestureDetector(
-                    onTap: () => Provider.of<MyProvider>(context, listen: false)
-                        .selectedCategoryFunc(),
+                    onTap: () =>
+                        Provider.of<MyProvider>(context, listen: false).selectedCategoryFunc(),
                     child: Container(
                       decoration: BoxDecoration(
                         boxShadow: [
@@ -79,8 +73,7 @@ class HomeScreen extends StatelessWidget {
                           ),
                         ],
                         borderRadius: BorderRadius.circular(10.0),
-                        color: Provider.of<MyProvider>(context)
-                                .selectedCategoryIcon
+                            color: Provider.of<MyProvider>(context).selectedCategoryIcon
                             ? secondaryColor
                             : Colors.grey.shade200,
                       ),
@@ -102,8 +95,7 @@ class HomeScreen extends StatelessWidget {
                           ),
                           Text('Burger',
                               style: TextStyle(
-                                  color: Provider.of<MyProvider>(context)
-                                          .selectedCategoryIcon
+                                  color: Provider.of<MyProvider>(context).selectedCategoryIcon
                                       ? Colors.white
                                       : Colors.black)),
                         ],
@@ -124,8 +116,7 @@ class HomeScreen extends StatelessWidget {
             Container(
               padding: EdgeInsets.only(bottom: 10.0),
               height: height,
-              decoration:
-                  BoxDecoration(borderRadius: BorderRadius.circular(10.0)),
+              decoration: BoxDecoration(borderRadius: BorderRadius.circular(10.0)),
               child: GridView.builder(
                 itemBuilder: (context, index) => Stack(
                   alignment: Alignment.topRight,
@@ -149,15 +140,13 @@ class HomeScreen extends StatelessWidget {
                           ),
                           Text(
                             'Beef Burger',
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 20.0),
+                            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),
                           ),
                           SizedBox(
                             height: 15.0,
                           ),
                           Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 10.0),
+                            padding: const EdgeInsets.symmetric(horizontal: 10.0),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -176,10 +165,8 @@ class HomeScreen extends StatelessWidget {
                       builder: (_, value, child) {
                         return GestureDetector(
                           onTap: () =>
-                              Provider.of<MyProvider>(context, listen: false)
-                                  .selectedFavItemFunc(),
-                          child: Provider.of<MyProvider>(context, listen: false)
-                                  .selectedFav
+                              Provider.of<MyProvider>(context, listen: false).selectedFavItemFunc(),
+                          child: Provider.of<MyProvider>(context, listen: false).selectedFav
                               ? Icon(
                                   Icons.favorite,
                                   color: basicColor,
@@ -206,8 +193,7 @@ class HomeScreen extends StatelessWidget {
                         ),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(10.0),
-                              bottomRight: Radius.circular(10.0)),
+                              topLeft: Radius.circular(10.0), bottomRight: Radius.circular(10.0)),
                           color: secondaryColor,
                         ),
                         width: 35.0,
@@ -222,9 +208,7 @@ class HomeScreen extends StatelessWidget {
                       child: Text(
                         '\$12.00',
                         style: TextStyle(
-                            color: Colors.green,
-                            fontSize: 18.0,
-                            fontWeight: FontWeight.bold),
+                            color: Colors.green, fontSize: 18.0, fontWeight: FontWeight.bold),
                       ),
                     ),
                   ],
