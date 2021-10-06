@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:food_app/services/shared_preferences.dart';
 import 'package:food_app/services/sign_provider.dart';
 import 'package:food_app/widgets/custom_button.dart';
 import 'package:food_app/widgets/custom_text_field.dart';
@@ -6,7 +7,6 @@ import 'package:form_field_validator/form_field_validator.dart';
 import 'package:loading_overlay/loading_overlay.dart';
 import 'package:provider/provider.dart';
 import 'package:food_app/services/auth_firebase.dart';
-import 'home_screen.dart';
 import 'package:flutter/rendering.dart';
 
 import 'item_details.dart';
@@ -86,6 +86,8 @@ class Screen extends StatelessWidget {
                         Provider.of<SignInProvider>(context, listen: false).loading();
                         await AuthFirebaseMethods()
                             .signInWithEmailAndPassword(context, email, password);
+                            /// save state of screen
+                            SharedPreferencesDatabase.saveUserLoggedInKey(true);
                         Navigator.pushNamed(context, ItemDetailsScreen.id);
                         Provider.of<SignInProvider>(context, listen: false).signed();
                       }

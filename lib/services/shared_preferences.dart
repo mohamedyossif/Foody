@@ -15,7 +15,7 @@ class SharedPreferencesDatabase {
   // getting data from SharedPreferences
   static Future<bool> getUserLoggedInKey() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
-    return preferences.getBool(sharedPreferencesIsLoggedInKey);
+    return  preferences.getBool(sharedPreferencesIsLoggedInKey);
   }
    static Future<String> getUserNameKey() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
