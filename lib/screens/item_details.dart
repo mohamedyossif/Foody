@@ -61,10 +61,17 @@ class Screen extends StatelessWidget {
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 10 / 100,
                   ),
-                  Image.asset(
-                    'assets/images/Icon_taco.png',
-                    height: MediaQuery.of(context).size.height * 30 / 100,
-                    width: MediaQuery.of(context).size.width * 30 / 100,
+                  Padding(
+                    padding: const EdgeInsets.only(left: 20, right: 20, top: 20, bottom: 10),
+                    child: CircleAvatar(
+                      radius: 100,
+                      backgroundColor: Colors.white,
+                      child: Image.asset(
+                        'assets/images/chicken.jpg',
+                        height: MediaQuery.of(context).size.height * 30 / 100,
+                        width: MediaQuery.of(context).size.width * 30 / 100,
+                      ),
+                    ),
                   ),
                   Consumer<CounterProvider>(builder: (_, value, child) {
                     return Column(

@@ -1,11 +1,15 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:food_app/screens/home_screen.dart';
+import 'package:food_app/screens/item_details.dart';
+import 'package:food_app/screens/profile_screen.dart';
 import 'package:food_app/screens/sign_in.dart';
 import 'package:food_app/screens/sign_up.dart';
 import 'package:food_app/widgets/custom_button.dart';
 
 class WelcomeScreen extends StatelessWidget {
   static const String id = 'WelcomeScreen';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

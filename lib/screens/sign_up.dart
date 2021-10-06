@@ -6,30 +6,32 @@ import 'package:food_app/widgets/custom_button.dart';
 import 'package:food_app/screens/home_screen.dart';
 import '../widgets/custom_text_field.dart';
 import 'package:food_app/services/auth_firebase.dart';
-
+import 'package:food_app/services/sign_provider.dart';
 import 'package:loading_overlay/loading_overlay.dart';
 import 'package:flutter/rendering.dart';
+import 'package:provider/provider.dart';
 
-class SignUpScreen extends StatefulWidget {
+class SignUpScreen extends StatelessWidget {
   static const String id = 'SignUpScreen';
 
   @override
-  State<SignUpScreen> createState() => _SignUpScreenState();
+  Widget build(BuildContext context) {
+    return ChangeNotifierProvider<SignUpProvider>(create: (_) => SignUpProvider(), child: Screen());
+  }
 }
 
-class _SignUpScreenState extends State<SignUpScreen> {
+class Screen extends StatelessWidget {
   String email = '';
-
   String password = '';
   bool isLoading = false;
- AuthFirebaseMethods authFirebaseMethods=AuthFirebaseMethods();
+  AuthFirebaseMethods authFirebaseMethods = AuthFirebaseMethods();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       body: LoadingOverlay(
-        isLoading: isLoading,
+        isLoading: Provider.of<SignUpProvider>(context).isLoading,
         child: SafeArea(
             child: SingleChildScrollView(
           child: Padding(
@@ -82,19 +84,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     password = value;
                   },
                 ),
-                CustomButton(
-                    text: 'Sign Up',
-                    function: () async {
-                      setState(() {
-                        isLoading = true;
+                Consumer<SignUpProvider>(builder: (_, value, child) {
+                  return CustomButton(
+                      text: 'Sign Up',
+                      function: () async {
+                        Provider.of<SignUpProvider>(context, listen: false).loading();
+                        await AuthFirebaseMethods().signUpWithEmailAndPassword(email, password);
+                        Navigator.pushNamed(context, HomeScreen.id);
+                        Provider.of<SignUpProvider>(context, listen: false).signed();
                       });
-                      print(email + password);
-                      authFirebaseMethods.signUpWithEmailAndPassword(email, password);
-                      Navigator.pushNamed(context, ItemDetailsScreen.id);
-                      setState(() {
-                        isLoading = false;
-                      });
-                    })
+                })
               ],
             ),
           ),
