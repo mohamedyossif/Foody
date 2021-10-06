@@ -62,13 +62,26 @@ class Screen extends StatelessWidget {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(left: 20, right: 20, top: 20, bottom: 10),
-                    child: CircleAvatar(
-                      radius: 100,
-                      backgroundColor: Colors.white,
-                      child: Image.asset(
-                        'assets/images/chicken.jpg',
-                        height: MediaQuery.of(context).size.height * 30 / 100,
-                        width: MediaQuery.of(context).size.width * 30 / 100,
+                    child: Container(
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                        //  borderRadius:BorderRadius.circular(100.0),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey,
+                              offset: Offset(5, 10),
+                              blurRadius: 20,
+                            ),
+                          ]
+                      ),
+                      child: CircleAvatar(
+                        radius: 100,
+                        backgroundColor: Colors.white,
+                        child: Image.asset(
+                          'assets/images/chicken.jpg',
+                          height: MediaQuery.of(context).size.height * 30 / 100,
+                          width: MediaQuery.of(context).size.width * 30 / 100,
+                        ),
                       ),
                     ),
                   ),
