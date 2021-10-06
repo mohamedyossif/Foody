@@ -13,7 +13,7 @@ import 'my_provider.dart';
 bool isCkeck =false;
  main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  /// check state of screen                           
+  /// check state of screen
   await SharedPreferencesDatabase.getUserLoggedInKey()
               /// first case ,isCkeck is false
   .then((value) => isCkeck = value ?? false);
@@ -22,8 +22,9 @@ bool isCkeck =false;
   await Firebase.initializeApp();
   runApp(MyApp());
 }
+
 class MyApp extends StatelessWidget {
- 
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<MyProvider>(
