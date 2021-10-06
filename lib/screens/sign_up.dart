@@ -10,6 +10,7 @@ import 'package:food_app/services/sign_provider.dart';
 import 'package:loading_overlay/loading_overlay.dart';
 import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
+import 'package:form_field_validator/form_field_validator.dart';
 
 class SignUpScreen extends StatelessWidget {
   static const String id = 'SignUpScreen';
@@ -23,8 +24,17 @@ class SignUpScreen extends StatelessWidget {
 class Screen extends StatelessWidget {
   String email = '';
   String password = '';
+  String username = '';
+  String address = '';
+  String phone = '';
   bool isLoading = false;
   AuthFirebaseMethods authFirebaseMethods = AuthFirebaseMethods();
+  TextEditingController _userName = TextEditingController();
+  TextEditingController _address = TextEditingController();
+  TextEditingController _phone = TextEditingController();
+  TextEditingController _email = TextEditingController();
+  TextEditingController _password = TextEditingController();
+  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -48,50 +58,83 @@ class Screen extends StatelessWidget {
                 Padding(
                     padding: const EdgeInsets.all(30),
                     child: Image.asset('assets/images/deliveryman.jpg')),
-                CustomTextField(
-                  icon: Icons.person,
-                  labelText: 'Username',
-                  function: (value) {
-                    //TODO: implement firebase auth
-                  },
-                ),
-                CustomTextField(
-                  icon: Icons.home,
-                  labelText: 'Address',
-                  function: (value) {
-                    //TODO: implement firebase auth
-                  },
-                ),
-                CustomTextField(
-                  icon: Icons.phone,
-                  labelText: 'Mobile number',
-                  function: (value) {
-                    //TODO: implement firebase auth
-                  },
-                ),
-                CustomTextField(
-                  icon: Icons.email,
-                  labelText: 'Email',
-                  function: (value) {
-                    email = value;
-                  },
-                ),
-                CustomTextField(
-                  icon: Icons.lock,
-                  labelText: 'Password',
-                  obscure: true,
-                  function: (value) {
-                    password = value;
-                  },
+                Form(
+                  key: _formKey,
+                  child: Column(
+                    children: [
+                      CustomTextField(
+                        controller: _userName,
+                        validator: MultiValidator([
+                          RequiredValidator(errorText: "Required"),
+                          //TODO: custom validator for users
+                        ]),
+                        icon: Icons.person,
+                        labelText: 'Username',
+                        function: (value) {
+                          username = value;
+                        },
+                      ),
+                      CustomTextField(
+                        controller: _address,
+                        validator: RequiredValidator(errorText: "Required"),
+                        icon: Icons.home,
+                        labelText: 'Address',
+                        function: (value) {
+                          address = value;
+                        },
+                      ),
+                      CustomTextField(
+                        controller: _phone,
+                        validator: RequiredValidator(errorText: "Required"),
+                        icon: Icons.phone,
+                        labelText: 'Mobile number',
+                        function: (value) {
+                          phone = value;
+                        },
+                      ),
+                      CustomTextField(
+                        controller: _email,
+                        validator: MultiValidator([
+                          RequiredValidator(errorText: "Required"),
+                          EmailValidator(errorText: "Please enter a valid email address"),
+                        ]),
+                        icon: Icons.email,
+                        labelText: 'Email',
+                        function: (value) {
+                          email = value;
+                        },
+                      ),
+                      CustomTextField(
+                        controller: _password,
+                        validator: MultiValidator([
+                          RequiredValidator(errorText: "Required"),
+                          MinLengthValidator(6,
+                              errorText: "Password must contain atleast 6 characters"),
+                          MaxLengthValidator(15,
+                              errorText: "Password cannot be more 15 characters"),
+                          PatternValidator(r'(?=.*?[#?!@$%^&*-])',
+                              errorText: "Password must have at least one special character"),
+                        ]),
+                        icon: Icons.lock,
+                        labelText: 'Password',
+                        obscure: true,
+                        function: (value) {
+                          password = value;
+                        },
+                      ),
+                    ],
+                  ),
                 ),
                 Consumer<SignUpProvider>(builder: (_, value, child) {
                   return CustomButton(
                       text: 'Sign Up',
                       function: () async {
-                        Provider.of<SignUpProvider>(context, listen: false).loading();
-                        await AuthFirebaseMethods().signUpWithEmailAndPassword(email, password);
-                        Navigator.pushNamed(context, HomeScreen.id);
-                        Provider.of<SignUpProvider>(context, listen: false).signed();
+                        if (_formKey.currentState.validate()) {
+                          Provider.of<SignUpProvider>(context, listen: false).loading();
+                          await AuthFirebaseMethods().signUpWithEmailAndPassword(email, password);
+                          Navigator.pushNamed(context, HomeScreen.id);
+                          Provider.of<SignUpProvider>(context, listen: false).signed();
+                        }
                       });
                 })
               ],
