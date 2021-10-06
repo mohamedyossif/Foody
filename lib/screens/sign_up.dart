@@ -85,7 +85,11 @@ class Screen extends StatelessWidget {
                       ),
                       CustomTextField(
                         controller: _phone,
-                        validator: RequiredValidator(errorText: "Required"),
+                        validator: MultiValidator([
+                          RequiredValidator(errorText: "Required"),
+                          MinLengthValidator(11, errorText: "enter a valid mobile number"),
+                          MaxLengthValidator(11, errorText: "enter a valid mobile number"),
+                        ]),
                         icon: Icons.phone,
                         labelText: 'Mobile number',
                         function: (value) {
@@ -109,7 +113,7 @@ class Screen extends StatelessWidget {
                         validator: MultiValidator([
                           RequiredValidator(errorText: "Required"),
                           MinLengthValidator(6,
-                              errorText: "Password must contain atleast 6 characters"),
+                              errorText: "Password must contain at least 6 characters"),
                           MaxLengthValidator(15,
                               errorText: "Password cannot be more 15 characters"),
                           PatternValidator(r'(?=.*?[#?!@$%^&*-])',
