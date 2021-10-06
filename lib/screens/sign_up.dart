@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:food_app/screens/item_details.dart';
+import 'package:food_app/services/dataBase.dart';
 import 'package:food_app/widgets/custom_button.dart';
 import 'package:food_app/screens/home_screen.dart';
 import '../widgets/custom_text_field.dart';
@@ -12,6 +13,7 @@ import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 
+int resultOfUserName=0;
 class SignUpScreen extends StatelessWidget {
   static const String id = 'SignUpScreen';
 
@@ -29,12 +31,18 @@ class Screen extends StatelessWidget {
   String phone = '';
   bool isLoading = false;
   AuthFirebaseMethods authFirebaseMethods = AuthFirebaseMethods();
+  FireStoreDatabaseMethods fireStoreDatabaseMethods=FireStoreDatabaseMethods();
   TextEditingController _userName = TextEditingController();
   TextEditingController _address = TextEditingController();
   TextEditingController _phone = TextEditingController();
   TextEditingController _email = TextEditingController();
   TextEditingController _password = TextEditingController();
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+/// check username is valid or not.
+   checkUsersName()async
+   {
+   await fireStoreDatabaseMethods.searchUserName(_userName.text).then((value) => resultOfUserName=value);
+   }
 
   @override
   Widget build(BuildContext context) {
@@ -133,9 +141,23 @@ class Screen extends StatelessWidget {
                   return CustomButton(
                       text: 'Sign Up',
                       function: () async {
-                        if (_formKey.currentState.validate()) {
+                        await checkUsersName();
+                        print('$resultOfUserName ==5000');
+                        if(resultOfUserName!=0)
+                        {
+                           print('Enter ur valid user Name');
+                        }
+                       else if (_formKey.currentState.validate()&&resultOfUserName==0) {
                           Provider.of<SignUpProvider>(context, listen: false).loading();
                           await AuthFirebaseMethods().signUpWithEmailAndPassword(email, password);
+                          Map<String,dynamic>userInfo={
+                            'address':_address.text,
+                            'email':_email.text,
+                            'phone':_phone.text,
+                            'username':_userName.text,
+                          };
+                          ///store ur data in FireStore
+                          fireStoreDatabaseMethods.upLoadProfile(userInfo,_userName.text);
                           Navigator.pushNamed(context, HomeScreen.id);
                           Provider.of<SignUpProvider>(context, listen: false).signed();
                         }
