@@ -82,13 +82,18 @@ class HomeScreen extends StatelessWidget {
                       width: width / 3.4,
                       child: Row(
                         children: [
-                          CircleAvatar(
-                            child: Image(
-                              height: 25.0,
-                              width: 25.0,
-                              image: AssetImage('assets/images/Icon_taco.png'),
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.pushNamed(context, ItemDetailsScreen.id);
+                            },
+                            child: CircleAvatar(
+                              child: Image(
+                                height: 25.0,
+                                width: 25.0,
+                                image: AssetImage('assets/images/Icon_taco.png'),
+                              ),
+                              backgroundColor: Colors.white,
                             ),
-                            backgroundColor: Colors.white,
                           ),
                           SizedBox(
                             width: 5.0,

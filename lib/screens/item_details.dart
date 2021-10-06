@@ -81,17 +81,17 @@ class Screen extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             ItemCountButton(
-                                icon: Icons.add_box,
+                                icon: Icons.indeterminate_check_box,
                                 function: () =>
-                                    Provider.of<CounterProvider>(context, listen: false).add()),
+                                    Provider.of<CounterProvider>(context, listen: false).remove()),
                             Text(
                               Provider.of<CounterProvider>(context).itemCount.toString(),
                               style: TextStyle(fontSize: 20, fontWeight: FontWeight.w900),
                             ),
                             ItemCountButton(
-                              icon: Icons.indeterminate_check_box,
+                              icon: Icons.add_box,
                               function: () =>
-                                  Provider.of<CounterProvider>(context, listen: false).remove(),
+                                  Provider.of<CounterProvider>(context, listen: false).add(),
                             ),
                           ],
                         ),

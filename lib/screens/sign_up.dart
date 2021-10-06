@@ -13,7 +13,9 @@ import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 
-int resultOfUserName=0;
+int resultOfUserName = 0;
+int resultOfEmail = 0;
+
 class SignUpScreen extends StatelessWidget {
   static const String id = 'SignUpScreen';
 
@@ -31,18 +33,35 @@ class Screen extends StatelessWidget {
   String phone = '';
   bool isLoading = false;
   AuthFirebaseMethods authFirebaseMethods = AuthFirebaseMethods();
-  FireStoreDatabaseMethods fireStoreDatabaseMethods=FireStoreDatabaseMethods();
+  FireStoreDatabaseMethods fireStoreDatabaseMethods = FireStoreDatabaseMethods();
   TextEditingController _userName = TextEditingController();
   TextEditingController _address = TextEditingController();
   TextEditingController _phone = TextEditingController();
   TextEditingController _email = TextEditingController();
   TextEditingController _password = TextEditingController();
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-/// check username is valid or not.
-   checkUsersName()async
-   {
-   await fireStoreDatabaseMethods.searchUserName(_userName.text).then((value) => resultOfUserName=value);
-   }
+
+  void buildSnackBar(BuildContext context, String message) {
+    final snackBar = SnackBar(
+      content: Text('$message'),
+      action: SnackBarAction(
+        label: 'Undo',
+        onPressed: () {},
+      ),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
+  /// check username is valid or not.
+  checkUsersName() async {
+    await fireStoreDatabaseMethods
+        .searchUserName(_userName.text)
+        .then((value) => resultOfUserName = value);
+  }
+
+  checkEmail() async {
+    await fireStoreDatabaseMethods.searchEmail(_email.text).then((value) => resultOfEmail = value);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -142,22 +161,30 @@ class Screen extends StatelessWidget {
                       text: 'Sign Up',
                       function: () async {
                         await checkUsersName();
-                        print('$resultOfUserName ==5000');
-                        if(resultOfUserName!=0)
-                        {
-                           print('Enter ur valid user Name');
-                        }
-                       else if (_formKey.currentState.validate()&&resultOfUserName==0) {
+                        await checkEmail();
+
+                        if (resultOfUserName != 0 || resultOfEmail != 0) {
+                          if (resultOfUserName != 0 && resultOfEmail != 0) {
+                            {
+                              buildSnackBar(context, 'username and email are not available');
+                            }
+                          } else if (resultOfUserName != 0 && resultOfEmail == 0) {
+                            buildSnackBar(context, 'username is not available');
+                          } else if (resultOfEmail != 0 && resultOfUserName == 0) {
+                            buildSnackBar(context, 'email is not available');
+                          }
+                        } else if (_formKey.currentState.validate()) {
                           Provider.of<SignUpProvider>(context, listen: false).loading();
                           await AuthFirebaseMethods().signUpWithEmailAndPassword(email, password);
-                          Map<String,dynamic>userInfo={
-                            'address':_address.text,
-                            'email':_email.text,
-                            'phone':_phone.text,
-                            'username':_userName.text,
+                          Map<String, dynamic> userInfo = {
+                            'address': _address.text,
+                            'email': _email.text,
+                            'phone': _phone.text,
+                            'username': _userName.text,
                           };
+
                           ///store ur data in FireStore
-                          fireStoreDatabaseMethods.upLoadProfile(userInfo,_userName.text);
+                          fireStoreDatabaseMethods.upLoadProfile(userInfo, _userName.text);
                           Navigator.pushNamed(context, HomeScreen.id);
                           Provider.of<SignUpProvider>(context, listen: false).signed();
                         }

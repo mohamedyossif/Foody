@@ -1,11 +1,13 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:food_app/constants.dart';
 import 'package:food_app/screens/home_screen.dart';
 import 'package:food_app/screens/item_details.dart';
 import 'package:food_app/screens/profile_screen.dart';
 import 'package:food_app/screens/sign_in.dart';
 import 'package:food_app/screens/sign_up.dart';
 import 'package:food_app/widgets/custom_button.dart';
+import 'package:delayed_display/delayed_display.dart';
 
 class WelcomeScreen extends StatelessWidget {
   static const String id = 'WelcomeScreen';
@@ -32,41 +34,61 @@ class WelcomeScreen extends StatelessWidget {
               options: CarouselOptions(
                   enlargeCenterPage: true, height: MediaQuery.of(context).size.height * 40 / 100),
             ),
-            Center(
-              child: Text(
-                'Enjoy\n\t\tTasty\n\t\t\t\tFood',
-                style: TextStyle(
-                    color: const Color(0xff040404), fontSize: 50, fontWeight: FontWeight.w700),
-              ),
-            ),
-            CustomButton(
-                text: 'Get Started',
-                function: () {
-                  Navigator.pushNamed(context, SignUpScreen.id);
-                }),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'Already have an account? ',
-                  style: TextStyle(
-                      color: const Color(0xff040404), fontSize: 20, fontWeight: FontWeight.w500),
+            Column(children: [
+              DelayedDisplay(
+                delay: Duration(seconds: 1),
+                child: Text(
+                  'Enjoy',
+                  style: kWelcomText,
                 ),
-                GestureDetector(
+              ),
+              DelayedDisplay(
+                  delay: Duration(seconds: 2),
                   child: Text(
-                    'Sign In',
+                    '\t\t\tTasty',
+                    style: kWelcomText,
+                  )),
+              DelayedDisplay(
+                  delay: Duration(seconds: 3),
+                  child: Text(
+                    '\t\t\t\t\t\tFood',
+                    style: kWelcomText,
+                  ))
+            ]),
+            DelayedDisplay(
+              delay: Duration(seconds: 4),
+              child: CustomButton(
+                  text: 'Get Started',
+                  function: () {
+                    Navigator.pushNamed(context, SignUpScreen.id);
+                  }),
+            ),
+            DelayedDisplay(
+              delay: Duration(seconds: 4),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'Already have an account? ',
                     style: TextStyle(
-                      color: const Color(0xff040404),
-                      fontSize: 20,
-                      fontWeight: FontWeight.w700,
-                      decoration: TextDecoration.underline,
-                    ),
+                        color: const Color(0xff040404), fontSize: 20, fontWeight: FontWeight.w500),
                   ),
-                  onTap: () {
-                    Navigator.pushNamed(context, SignInScreen.id);
-                  },
-                )
-              ],
+                  GestureDetector(
+                    child: Text(
+                      'Sign In',
+                      style: TextStyle(
+                        color: const Color(0xff040404),
+                        fontSize: 20,
+                        fontWeight: FontWeight.w700,
+                        decoration: TextDecoration.underline,
+                      ),
+                    ),
+                    onTap: () {
+                      Navigator.pushNamed(context, SignInScreen.id);
+                    },
+                  )
+                ],
+              ),
             ),
           ],
         ),

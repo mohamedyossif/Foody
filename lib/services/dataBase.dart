@@ -10,10 +10,18 @@ class FireStoreDatabaseMethods {
 
   /// search by username
   Future searchUserName(String userName) {
-    return  _fireStore
+    return _fireStore
         .collection('users')
         .where('username', isEqualTo: userName)
         .get()
-        .then((value)=>value.docs.length);
+        .then((value) => value.docs.length);
+  }
+
+  Future searchEmail(String email) {
+    return _fireStore
+        .collection('users')
+        .where('email', isEqualTo: email)
+        .get()
+        .then((value) => value.docs.length);
   }
 }

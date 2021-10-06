@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/services.dart';
 import 'package:food_app/screens/profile_screen.dart';
-import 'screens/splash.dart';
 import 'screens/welcome.dart';
 import 'screens/sign_up.dart';
 import 'screens/sign_in.dart';
@@ -22,7 +21,6 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<MyProvider>(
@@ -30,7 +28,6 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         routes: {
-          SplashScreen.id: (context) => SplashScreen(),
           WelcomeScreen.id: (context) => WelcomeScreen(),
           SignUpScreen.id: (context) => SignUpScreen(),
           SignInScreen.id: (context) => SignInScreen(),
@@ -38,7 +35,7 @@ class MyApp extends StatelessWidget {
           ItemDetailsScreen.id: (context) => ItemDetailsScreen(),
           ProfileScreen.id: (context) => ProfileScreen(),
         },
-        initialRoute: SplashScreen.id,
+        initialRoute: WelcomeScreen.id,
       ),
     );
   }
