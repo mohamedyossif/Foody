@@ -163,16 +163,12 @@ class Screen extends StatelessWidget {
                         await checkUsersName();
                         await checkEmail();
 
-                        if (resultOfUserName != 0 || resultOfEmail != 0) {
-                          if (resultOfUserName != 0 && resultOfEmail != 0) {
-                            {
-                              buildSnackBar(context, 'username and email are not available');
-                            }
-                          } else if (resultOfUserName != 0 && resultOfEmail == 0) {
-                            buildSnackBar(context, 'username is not available');
-                          } else if (resultOfEmail != 0 && resultOfUserName == 0) {
-                            buildSnackBar(context, 'email is not available');
-                          }
+                        if (resultOfUserName != 0 && resultOfEmail != 0) {
+                          buildSnackBar(context, 'Email and username are not available');
+                        } else if (resultOfUserName != 0) {
+                          buildSnackBar(context, 'Username is not available');
+                        } else if (resultOfEmail != 0) {
+                          buildSnackBar(context, 'Email is not available');
                         } else if (_formKey.currentState.validate()) {
                           Provider.of<SignUpProvider>(context, listen: false).loading();
                           await AuthFirebaseMethods().signUpWithEmailAndPassword(email, password);
