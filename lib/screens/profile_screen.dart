@@ -31,7 +31,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
+   // double width = MediaQuery.of(context).size.width;
     return Scaffold(
       body: SafeArea(
         maintainBottomViewPadding: true,

@@ -1,17 +1,30 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 
-class MyProvider extends ChangeNotifier{
-bool selectedFav = false;
-void selectedFavItemFunc(){
-  selectedFav =!selectedFav;
- print('hello');
-  notifyListeners();
-}
+class MyProvider extends ChangeNotifier {
+  bool selectedFav = false;
+  bool selectedCategoryIcon = false;
 
-bool selectedCategoryIcon = false;
-void selectedCategoryFunc(){
-  selectedCategoryIcon =!selectedCategoryIcon;
- print('hello');
-  notifyListeners();
-}
+  double chooseWidth(context) {
+    double width = MediaQuery.of(context).size.width;
+    return width;
+  }
+
+  double chooseHeight(context) {
+    double height = MediaQuery.of(context).size.height;
+    return height;
+  }
+
+  void selectedFavItemFunc() {
+    selectedFav = !selectedFav;
+    print('hello');
+    notifyListeners();
+  }
+
+
+  void selectedCategoryFunc() {
+    selectedCategoryIcon = !selectedCategoryIcon;
+    print('hello');
+    notifyListeners();
+  }
 }
