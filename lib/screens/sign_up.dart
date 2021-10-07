@@ -1,7 +1,4 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:food_app/screens/item_details.dart';
 import 'package:food_app/services/dataBase.dart';
 import 'package:food_app/services/shared_preferences.dart';
 import 'package:food_app/widgets/custom_button.dart';
@@ -163,7 +160,8 @@ class Screen extends StatelessWidget {
                       function: () async {
                         await checkUsersName();
                         await checkEmail();
-                          ///check user or email is exist or not
+
+                        ///check user or email is exist or not
                         if (resultOfUserName != 0 && resultOfEmail != 0) {
                           buildSnackBar(context, 'Email and username are not available');
                         } else if (resultOfUserName != 0) {
@@ -173,6 +171,7 @@ class Screen extends StatelessWidget {
                         } else if (_formKey.currentState.validate()) {
                           Provider.of<SignUpProvider>(context, listen: false).loading();
                           await AuthFirebaseMethods().signUpWithEmailAndPassword(email, password);
+
                           /// save state of screen
                           SharedPreferencesDatabase.saveUserLoggedInKey(true);
                           Map<String, dynamic> userInfo = {
@@ -181,6 +180,7 @@ class Screen extends StatelessWidget {
                             'phone': _phone.text,
                             'username': _userName.text,
                           };
+
                           ///store ur data in FireStore
                           fireStoreDatabaseMethods.upLoadProfile(userInfo, _userName.text);
                           Navigator.pushNamed(context, HomeScreen.id);

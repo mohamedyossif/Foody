@@ -3,10 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/widgets.dart';
-import 'package:food_app/model/food_list.dart';
 import 'package:food_app/services/height_provider.dart';
 import 'package:food_app/widgets/custom_button.dart';
-import 'package:food_app/widgets/customized_grid_view_Item.dart';
 import 'package:food_app/widgets/details_icon.dart';
 import 'package:food_app/widgets/item_count_button.dart';
 import 'package:provider/provider.dart';
@@ -18,7 +16,11 @@ class ItemDetailsScreen extends StatelessWidget {
       {@required this.foodName,
       @required this.image,
       @required this.price,
-      @required this.description
+      @required this.description,
+      @required this.vegan,
+      @required this.veryHealthy,
+      @required this.readyInMinutes,
+      @required this.veryPopular
       // @required this.title,
       // @required this.nutrition
       });
@@ -27,11 +29,14 @@ class ItemDetailsScreen extends StatelessWidget {
 
   // String title;
   // Nutrition nutrition;
-  String description;
-
-  String foodName;
-  String image;
-  String price;
+  final String description;
+  final String foodName;
+  final String image;
+  final String price;
+  final bool veryHealthy;
+  final bool vegan;
+  final bool veryPopular;
+  final double readyInMinutes;
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +45,16 @@ class ItemDetailsScreen extends StatelessWidget {
         ChangeNotifierProvider<CounterProvider>(create: (_) => CounterProvider()),
         ChangeNotifierProvider<HeightProvider>(create: (_) => HeightProvider()),
       ],
-      child: Screen(foodName: foodName, image: image, price: price, description: description),
+      child: Screen(
+        foodName: foodName,
+        image: image,
+        price: price,
+        description: description,
+        vegan: vegan,
+        readyInMinutes: readyInMinutes,
+        veryHealthy: veryHealthy,
+        veryPopular: veryPopular,
+      ),
     );
   }
 }
@@ -50,23 +64,28 @@ class Screen extends StatelessWidget {
       {@required this.foodName,
       @required this.image,
       @required this.price,
-      @required this.description
+      @required this.description,
+      @required this.vegan,
+      @required this.veryHealthy,
+      @required this.readyInMinutes,
+      @required this.veryPopular
       // @required this.title,
       // @required this.nutrition
       });
 
   // String title;
   // Nutrition nutrition;
-  String description;
+  final String description;
+  final String foodName;
+  final String image;
+  final String price;
+  final bool veryHealthy;
+  final bool vegan;
+  final bool veryPopular;
+  final double readyInMinutes;
 
-  String foodName;
-  String image;
-  String price;
-
-  // String description = 'bla' * 50;
   @override
   Widget build(BuildContext context) {
-    double containerHeight = MediaQuery.of(context).size.height * 95 / 100;
     return Scaffold(
       backgroundColor: Color(0xffffd04e),
       body: SingleChildScrollView(
@@ -169,32 +188,32 @@ class Screen extends StatelessWidget {
                             },
                           );
                         }),
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height * 12 / 100,
-                          width: 90,
-                          child: ListView(
-                            scrollDirection: Axis.horizontal,
-                            children: [
-                              DetailsIcon(
-                                icon: 'assets/images/Icon_taco.png',
-                              ),
-                              DetailsIcon(
-                                icon: 'assets/images/Icon_taco.png',
-                              ),
-                              DetailsIcon(
-                                icon: 'assets/images/Icon_taco.png',
-                                text: 'beef',
-                              )
-                            ],
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 8.0),
-                          child: Text(
-                            'Ingredients',
-                            style: TextStyle(fontSize: 25, fontWeight: FontWeight.w800),
-                          ),
-                        ),
+                        // SizedBox(
+                        //   height: MediaQuery.of(context).size.height * 12 / 100,
+                        //   width: 90,
+                        //   child: ListView(
+                        //     scrollDirection: Axis.horizontal,
+                        //     children: [
+                        //       DetailsIcon(
+                        //         icon: 'assets/images/Icon_taco.png',
+                        //       ),
+                        //       DetailsIcon(
+                        //         icon: 'assets/images/Icon_taco.png',
+                        //       ),
+                        //       DetailsIcon(
+                        //         icon: 'assets/images/Icon_taco.png',
+                        //         text: 'beef',
+                        //       )
+                        //     ],
+                        //   ),
+                        // ),
+                        // Padding(
+                        //   padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        //   child: Text(
+                        //     'Ingredients',
+                        //     style: TextStyle(fontSize: 25, fontWeight: FontWeight.w800),
+                        //   ),
+                        // ),
                         SizedBox(
                           height: MediaQuery.of(context).size.height * 9 / 100,
                           width: 60,

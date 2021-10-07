@@ -13,7 +13,7 @@ import 'package:food_app/widgets/customized_category_item.dart';
 
 class HomeScreen extends StatelessWidget {
   static const String id = 'HomeScreen';
-  bool selected = false;
+  final bool selected = false;
 
   @override
   Widget build(BuildContext context) {
@@ -82,6 +82,10 @@ class HomeScreen extends StatelessWidget {
                               image: snapshot.data[index].image.toString(),
                               price: snapshot.data[index].price.toStringAsFixed(2).toString(),
                               description: snapshot.data[index].description.toString(),
+                              veryHealthy: snapshot.data[index].veryHealthy,
+                              vegan: snapshot.data[index].vegan,
+                              readyInMinutes: snapshot.data[index].readyInMinutes.toDouble(),
+                              veryPopular: snapshot.data[index].veryPopular,
                             );
                           },
                           itemCount: 10,
