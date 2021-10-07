@@ -21,7 +21,6 @@ class MyProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-
   void selectedCategoryFunc() {
     selectedCategoryIcon = !selectedCategoryIcon;
     print('hello');

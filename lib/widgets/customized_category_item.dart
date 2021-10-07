@@ -7,14 +7,13 @@ class CustomizedCategoryItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //todo provider for mediaQuery
-  double width = MediaQuery.of(context).size.width;
+    double width = MediaQuery.of(context).size.width;
     return ListView.separated(
       scrollDirection: Axis.horizontal,
       shrinkWrap: true,
       itemCount: 10,
       itemBuilder: (context, index) => GestureDetector(
-        onTap: () => Provider.of<MyProvider>(context, listen: false)
-            .selectedCategoryFunc(),
+        onTap: () => Provider.of<MyProvider>(context, listen: false).selectedCategoryFunc(),
         child: Container(
           decoration: BoxDecoration(
             boxShadow: [
@@ -26,8 +25,7 @@ class CustomizedCategoryItem extends StatelessWidget {
               ),
             ],
             borderRadius: BorderRadius.circular(10.0),
-            color: Provider.of<MyProvider>(context)
-                .selectedCategoryIcon
+            color: Provider.of<MyProvider>(context).selectedCategoryIcon
                 ? secondaryColor
                 : Colors.grey.shade200,
           ),
@@ -50,8 +48,7 @@ class CustomizedCategoryItem extends StatelessWidget {
               ),
               Text('Burger',
                   style: TextStyle(
-                      color: Provider.of<MyProvider>(context)
-                          .selectedCategoryIcon
+                      color: Provider.of<MyProvider>(context).selectedCategoryIcon
                           ? Colors.white
                           : Colors.black)),
             ],
@@ -61,7 +58,6 @@ class CustomizedCategoryItem extends StatelessWidget {
       separatorBuilder: (context, index) => SizedBox(
         width: 20.0,
       ),
-
     );
   }
 }

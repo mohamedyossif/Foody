@@ -85,7 +85,7 @@ class HomeScreen extends StatelessWidget {
                             );
                           },
                           itemCount: 10,
-                    gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                          gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
                             maxCrossAxisExtent: 200,
                             childAspectRatio: 3 / 4,
                             crossAxisSpacing: 20,
