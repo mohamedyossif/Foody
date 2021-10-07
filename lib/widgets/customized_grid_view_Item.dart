@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:food_app/model/food_list.dart';
 import 'package:food_app/screens/item_details.dart';
 import 'package:provider/provider.dart';
 import 'package:food_app/my_provider.dart';
@@ -8,13 +7,24 @@ import 'package:food_app/constants.dart';
 class CustomizedGridViewItem extends StatelessWidget {
   // String title;
   // Nutrition nutrition;
-  String description;
-  String foodName, image;
-  String price;
+  final String description;
+  final String foodName;
+  final String image;
+  final String price;
+  final bool veryHealthy;
+  final bool vegan;
+  final bool veryPopular;
+  final double readyInMinutes;
 
-  CustomizedGridViewItem({this.foodName, this.price, this.image, this.description
-      // this.title, this.nutrition
-      });
+  CustomizedGridViewItem(
+      {this.foodName,
+      this.price,
+      this.image,
+      this.description,
+      this.vegan,
+      this.veryHealthy,
+      this.readyInMinutes,
+      this.veryPopular});
 
   @override
   Widget build(BuildContext context) {
@@ -37,14 +47,20 @@ class CustomizedGridViewItem extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => ItemDetailsScreen(
-                              foodName: foodName,
-                              image: image,
-                              price: price,
-                              description: description
-                              // title: title,
-                              // nutrition: nutrition,
-                              )),
+                        builder: (context) => ItemDetailsScreen(
+                          foodName: foodName,
+                          image: image,
+                          price: price,
+                          description: description,
+                          vegan: vegan,
+                          readyInMinutes: readyInMinutes,
+                          veryHealthy: veryHealthy,
+                          veryPopular: veryPopular,
+                        ),
+
+                        // title: title,
+                        // nutrition: nutrition,
+                      ),
                     );
                   },
                   child: Image(

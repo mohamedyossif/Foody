@@ -4,9 +4,23 @@ class FoodList {
   final String title;
   final int id;
   final double price;
+  final bool veryHealthy;
+  final bool vegan;
+  final bool veryPopular;
+  final double readyInMinutes;
   Nutrition nutrition;
 
-  FoodList({this.title, this.image, this.id, this.price, this.nutrition, this.description});
+  FoodList(
+      {this.veryHealthy,
+      this.readyInMinutes,
+      this.vegan,
+      this.title,
+      this.image,
+      this.id,
+      this.price,
+      this.nutrition,
+      this.veryPopular,
+      this.description});
 
   factory FoodList.fromJson(Map<String, dynamic> json) {
     return FoodList(
@@ -15,6 +29,10 @@ class FoodList {
       image: json['image'],
       title: json['title'],
       price: json['pricePerServing'],
+      veryHealthy: json['veryHealthy'],
+      vegan: json['vegan'],
+      veryPopular: json['veryPopular'],
+      readyInMinutes: json['readyInMinutes'],
       nutrition: Nutrition.fromJson(
         json['nutrition'],
       ),
