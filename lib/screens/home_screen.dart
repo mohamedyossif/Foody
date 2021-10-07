@@ -29,10 +29,7 @@ class HomeScreen extends StatelessWidget {
                 TextSpan(text: 'Find The ', style: kTextTitleDecoration),
                 TextSpan(
                   text: 'Best\nFood',
-                  style: TextStyle(
-                      fontWeight: FontWeight.w500,
-                      color: basicColor,
-                      fontSize: 40.0),
+                  style: TextStyle(fontWeight: FontWeight.w500, color: basicColor, fontSize: 40.0),
                 ),
                 TextSpan(text: ' Around You!', style: kTextTitleDecoration),
               ],
@@ -47,25 +44,20 @@ class HomeScreen extends StatelessWidget {
             padding: const EdgeInsets.symmetric(vertical: 10.0),
             child: Text(
               'Find',
-              style: TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 25.0),
+              style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 25.0),
             ),
           ),
           //=============================================== select category
           //=========================================================================
           GestureDetector(
-            onTap: () => Provider.of<MyProvider>(context, listen: false)
-                .selectedCategoryFunc(),
+            onTap: () => Provider.of<MyProvider>(context, listen: false).selectedCategoryFunc(),
             child: Container(
               height: 60.0,
               width: 300,
               child: FutureBuilder<List<FoodList>>(
                   future: NetworkingAPI.getData(),
-                  builder: (context, snapshot) => snapshot.hasData
-                      ? CustomizedCategoryItem()
-                      : CircularProgressIndicator()),
+                  builder: (context, snapshot) =>
+                      snapshot.hasData ? CustomizedCategoryItem() : CircularProgressIndicator()),
             ),
           ),
           SizedBox(
@@ -78,23 +70,22 @@ class HomeScreen extends StatelessWidget {
             builder: (_, value, child) => Container(
               padding: EdgeInsets.only(bottom: 10.0),
               height: Provider.of<MyProvider>(context).chooseHeight(context),
-              decoration:
-                  BoxDecoration(borderRadius: BorderRadius.circular(10.0)),
+              decoration: BoxDecoration(borderRadius: BorderRadius.circular(10.0)),
               child: FutureBuilder<List<FoodList>>(
                   future: NetworkingAPI.getData(),
                   builder: (context, snapshot) => snapshot.hasData
                       ? GridView.builder(
                           itemBuilder: (context, index) {
-                           // String image = snapshot.data[index].image.toString();
+                            // String image = snapshot.data[index].image.toString();
                             return CustomizedGridViewItem(
-                              foodName:snapshot.data[index].title.toString() ,
+                              foodName: snapshot.data[index].title.toString(),
                               image: snapshot.data[index].image.toString(),
-                              price: snapshot.data[index].price.toStringAsFixed(0).toString(),
+                              price: snapshot.data[index].price.toStringAsFixed(2).toString(),
+                              description: snapshot.data[index].description.toString(),
                             );
                           },
                           itemCount: 10,
-                          gridDelegate:
-                              SliverGridDelegateWithMaxCrossAxisExtent(
+                    gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
                             maxCrossAxisExtent: 200,
                             childAspectRatio: 3 / 4,
                             crossAxisSpacing: 20,

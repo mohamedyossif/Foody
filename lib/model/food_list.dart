@@ -1,17 +1,23 @@
 class FoodList {
+  final String description;
   final String image;
   final String title;
   final int id;
   final double price;
   Nutrition nutrition;
-  FoodList({this.title, this.image, this.id, this.price, this.nutrition});
+
+  FoodList({this.title, this.image, this.id, this.price, this.nutrition, this.description});
+
   factory FoodList.fromJson(Map<String, dynamic> json) {
     return FoodList(
+      description: json['summary'],
       id: json['id'],
       image: json['image'],
       title: json['title'],
       price: json['pricePerServing'],
-      nutrition: Nutrition.fromJson(json['nutrition']),
+      nutrition: Nutrition.fromJson(
+        json['nutrition'],
+      ),
     );
   }
 }
@@ -29,7 +35,8 @@ class Nutrition {
 
 class Nutrients {
   double calories;
-  Nutrients({ this.calories});
+
+  Nutrients({this.calories});
   factory Nutrients.fromJson(json) {
     return Nutrients(calories: json[0]['amount']);
   }
