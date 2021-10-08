@@ -9,11 +9,11 @@ class CartScreen extends StatefulWidget {
 }
 
 class _CartScreenState extends State<CartScreen> {
-  int numOfOrder = 1;
-  double endPrice = 0;
-  double subTotal = 9.9;
-  double shipping = 3.00;
-  double total = 0;
+  int numOfOrder;
+  double endPrice;
+  double subTotal;
+  double shipping;
+  double total;
 
   _foodCard({String type, String name, double price, String img}) {
     return Padding(
@@ -21,11 +21,6 @@ class _CartScreenState extends State<CartScreen> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          Icon(
-            Icons.check_box_rounded,
-            color: Colors.orange,
-            size: 30,
-          ),
           Container(
             padding: EdgeInsets.all(8.0),
             width: 300,
