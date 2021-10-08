@@ -36,65 +36,70 @@ class Screen extends StatelessWidget {
         child: SafeArea(
             child: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Text(
-                'Welcome Back!',
-                style: TextStyle(
-                    color: const Color(0xffD4361C), fontSize: 50, fontWeight: FontWeight.w700),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(30),
-                child: Image.asset('assets/images/assets/salad.png'),
-              ),
-              Form(
-                key: _formKey,
-                child: Column(
-                  children: [
-                    CustomTextField(
-                      controller: _email,
-                      validator: MultiValidator([
-                        RequiredValidator(errorText: "Required"),
-                        EmailValidator(errorText: "Please enter a valid email address"),
-                      ]),
-                      icon: Icons.email,
-                      labelText: 'Email',
-                      function: (value) {
-                        email = value;
-                      },
-                    ),
-                    CustomTextField(
-                      controller: _password,
-                      validator: RequiredValidator(errorText: "Required"),
-                      icon: Icons.lock,
-                      labelText: 'Password',
-                      obscure: true,
-                      function: (value) {
-                        password = value;
-                      },
-                    ),
-                  ],
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Text(
+                  'Welcome Back!',
+                  style: TextStyle(
+                      color: const Color(0xffD4361C), fontSize: 50, fontWeight: FontWeight.w700),
                 ),
-              ),
-              Consumer<SignInProvider>(builder: (_, value, child) {
-                return CustomButton(
-                    text: 'Sign In',
-                    function: () async {
-                      if (_formKey.currentState.validate()) {
-                        Provider.of<SignInProvider>(context, listen: false).loading();
-                        await AuthFirebaseMethods()
-                            .signInWithEmailAndPassword(context, email, password);
+                Padding(
+                  padding: const EdgeInsets.all(30),
+                  child: Image.asset('assets/images/salad.png'),
+                ),
+                Form(
+                  key: _formKey,
+                  child: Column(
+                    children: [
+                      CustomTextField(
+                        controller: _email,
+                        validator: MultiValidator([
+                          RequiredValidator(errorText: "Required"),
+                          EmailValidator(errorText: "Please enter a valid email address"),
+                        ]),
+                        icon: Icons.email,
+                        labelText: 'Email',
+                        function: (value) {
+                          email = value;
+                        },
+                      ),
+                      CustomTextField(
+                        controller: _password,
+                        validator: RequiredValidator(errorText: "Required"),
+                        icon: Icons.lock,
+                        labelText: 'Password',
+                        obscure: true,
+                        function: (value) {
+                          password = value;
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 15 / 100,
+                ),
+                Consumer<SignInProvider>(builder: (_, value, child) {
+                  return CustomButton(
+                      text: 'Sign In',
+                      function: () async {
+                        if (_formKey.currentState.validate()) {
+                          Provider.of<SignInProvider>(context, listen: false).loading();
+                          await AuthFirebaseMethods()
+                              .signInWithEmailAndPassword(context, email, password);
 
-                        /// save state of screen
-                        SharedPreferencesDatabase.saveUserLoggedInKey(true);
-                        Navigator.pushNamed(context, ItemDetailsScreen.id);
-                        Provider.of<SignInProvider>(context, listen: false).signed();
-                      }
-                    });
-              })
-            ],
+                          /// save state of screen
+                          SharedPreferencesDatabase.saveUserLoggedInKey(true);
+                          Navigator.pushNamed(context, ItemDetailsScreen.id);
+                          Provider.of<SignInProvider>(context, listen: false).signed();
+                        }
+                      });
+                })
+              ],
+            ),
           ),
         )),
       ),
