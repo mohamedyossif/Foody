@@ -82,7 +82,7 @@ class Screen extends StatelessWidget {
                 ),
                 Padding(
                     padding: const EdgeInsets.all(30),
-                    child: Image.asset('assets/images/assets/deliveryman.jpg')),
+                    child: Image.asset('assets/images/deliveryman.jpg')),
                 Form(
                   key: _formKey,
                   child: Column(

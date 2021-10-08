@@ -47,7 +47,7 @@ class MyApp extends StatelessWidget {
           CartScreen.id: (context) => CartScreen(),
           SuccessPayment.id: (context) => SuccessPayment()
         },
-        initialRoute: isCkeck ? SignInScreen.id : WelcomeScreen.id,
+        initialRoute: isCkeck ? HomeScreen.id : WelcomeScreen.id,
       ),
     );
   }
