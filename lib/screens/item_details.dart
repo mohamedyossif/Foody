@@ -3,8 +3,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/widgets.dart';
+import 'package:food_app/screens/cart_Screen.dart';
+import 'package:food_app/screens/payment_screen.dart';
 import 'package:food_app/services/height_provider.dart';
-import 'package:food_app/services/icons_provider.dart';
 import 'package:food_app/widgets/custom_button.dart';
 import 'package:food_app/widgets/details_icon.dart';
 import 'package:food_app/widgets/item_count_button.dart';
@@ -28,8 +29,6 @@ class ItemDetailsScreen extends StatelessWidget {
 
   static const String id = 'ItemDetailsScreen';
 
-  // String title;
-  // Nutrition nutrition;
   final String description;
   final String foodName;
   final String image;
@@ -38,24 +37,72 @@ class ItemDetailsScreen extends StatelessWidget {
   final String vegan;
   final String veryPopular;
   final String readyInMinutes;
+  DetailsIcon IsVegan;
+  DetailsIcon IsHealthy;
+  DetailsIcon IsPopular;
+  DetailsIcon ReadyInMinutes;
+
+  void isVegan() {
+    if (vegan == 'true') {
+      IsVegan = DetailsIcon(
+        icon: 'assets/images/vegan.png',
+      );
+    }
+
+    IsVegan = DetailsIcon(
+      icon: 'assets/images/meat.png',
+    );
+  }
+
+  void healthy() {
+    if (veryHealthy == 'true') {
+      IsHealthy = DetailsIcon(
+        icon: 'assets/images/healthy-food.png',
+      );
+    }
+
+    IsHealthy = DetailsIcon(
+      icon: 'assets/images/fast-food.png',
+    );
+  }
+
+  void popular() {
+    if (veryPopular == 'true') {
+      IsPopular = DetailsIcon(
+        icon: 'assets/images/fire.png',
+      );
+    }
+
+    IsPopular = DetailsIcon(icon: 'assets/images/smile.png');
+  }
+
+  void readyInMins() {
+    ReadyInMinutes = DetailsIcon(
+      icon: 'assets/images/pot.png',
+      text: '$readyInMinutes mins',
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
+    readyInMins();
+    isVegan();
+    popular();
+    healthy();
     return MultiProvider(
       providers: [
         ChangeNotifierProvider<CounterProvider>(create: (_) => CounterProvider()),
         ChangeNotifierProvider<HeightProvider>(create: (_) => HeightProvider()),
-        ChangeNotifierProvider<HighlightsProvider>(create: (_) => HighlightsProvider())
       ],
       child: Screen(
         foodName: foodName,
         image: image,
         price: price,
         description: description,
-        vegan: vegan,
-        readyInMinutes: readyInMinutes,
-        veryHealthy: veryHealthy,
-        veryPopular: veryPopular,
+        vegan: IsVegan,
+        readyInMinutes: ReadyInMinutes,
+        veryHealthy: IsHealthy,
+        veryPopular: IsPopular,
       ),
     );
   }
@@ -70,21 +117,16 @@ class Screen extends StatelessWidget {
       @required this.vegan,
       @required this.veryHealthy,
       @required this.readyInMinutes,
-      @required this.veryPopular
-      // @required this.title,
-      // @required this.nutrition
-      });
+      @required this.veryPopular});
 
-  // String title;
-  // Nutrition nutrition;
   final String description;
   final String foodName;
   final String image;
   final String price;
-  final String veryHealthy;
-  final String vegan;
-  final String veryPopular;
-  final String readyInMinutes;
+  final DetailsIcon veryHealthy;
+  final DetailsIcon vegan;
+  final DetailsIcon veryPopular;
+  final DetailsIcon readyInMinutes;
 
   @override
   Widget build(BuildContext context) {
@@ -103,7 +145,9 @@ class Screen extends StatelessWidget {
                         children: [
                           CustomButton(
                             text: 'Add To Cart',
-                            function: () {},
+                            function: () {
+                              Navigator.pushNamed(context, CartScreen.id);
+                            },
                           )
                         ],
                       ),
@@ -178,8 +222,8 @@ class Screen extends StatelessWidget {
                             trimLines: 3,
                             style: TextStyle(fontSize: 20, color: Colors.grey[700]),
                             colorClickableText: Colors.black,
-                            lessStyle: TextStyle(fontWeight: FontWeight.w800, color: Colors.black),
-                            moreStyle: TextStyle(fontWeight: FontWeight.w800, color: Colors.black),
+                            lessStyle: TextStyle(fontWeight: FontWeight.w700, color: Colors.black),
+                            moreStyle: TextStyle(fontWeight: FontWeight.w700, color: Colors.black),
                             callback: (value) {
                               value
                                   ? Provider.of<HeightProvider>(context, listen: false)
@@ -190,47 +234,31 @@ class Screen extends StatelessWidget {
                             },
                           );
                         }),
-                        // SizedBox(
-                        //   height: MediaQuery.of(context).size.height * 12 / 100,
-                        //   width: 90,
-                        //   child: ListView(
-                        //     scrollDirection: Axis.horizontal,
-                        //     children: [
-                        //       DetailsIcon(
-                        //         icon: 'assets/images/Icon_taco.png',
-                        //       ),
-                        //       DetailsIcon(
-                        //         icon: 'assets/images/Icon_taco.png',
-                        //       ),
-                        //       DetailsIcon(
-                        //         icon: 'assets/images/Icon_taco.png',
-                        //         text: 'beef',
-                        //       )
-                        //     ],
-                        //   ),
-                        // ),
                         Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 11),
+                          padding: const EdgeInsets.symmetric(vertical: 8.0),
                           child: Text(
                             'Highlights:',
-                            style: TextStyle(fontSize: 25, fontWeight: FontWeight.w800),
+                            style: TextStyle(
+                                fontWeight: FontWeight.w800,
+                                color: Color(0xff040404),
+                                fontSize: 25),
                           ),
                         ),
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height * 9 / 100,
-                          width: MediaQuery.of(context).size.width * 9 / 100,
-                          child: Consumer<HighlightsProvider>(builder: (_, value, child) {
-                            return ListView(
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 11),
+                          child: SizedBox(
+                            height: MediaQuery.of(context).size.height * 9 / 100,
+                            width: MediaQuery.of(context).size.height * 9 / 100,
+                            child: ListView(
                               scrollDirection: Axis.horizontal,
                               children: [
-                                Provider.of<HighlightsProvider>(context).popular(veryPopular),
-                                Provider.of<HighlightsProvider>(context)
-                                    .readyInMinutes(readyInMinutes),
-                                Provider.of<HighlightsProvider>(context).healthy(veryHealthy),
-                                Provider.of<HighlightsProvider>(context).vegan(vegan)
+                                readyInMinutes,
+                                veryPopular,
+                                veryHealthy,
+                                vegan,
                               ],
-                            );
-                          }),
+                            ),
+                          ),
                         ),
                       ],
                     );

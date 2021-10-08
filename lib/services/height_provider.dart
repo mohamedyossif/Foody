@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 
 class HeightProvider extends ChangeNotifier {
-  double height = 650;
+  double height = 640;
 
   void moreHeight(context) {
-    height = MediaQuery.of(context).size.height * 75 / 100 + 300;
+    height = MediaQuery.of(context).size.height * 75 / 100 + 290;
     print(height);
 
     notifyListeners();
   }
 
   void lessHeight(context) {
-    height = MediaQuery.of(context).size.height * 83 / 100;
+    height = MediaQuery.of(context).size.height * 82 / 100;
+
     print(height);
     notifyListeners();
   }
