@@ -1,25 +1,21 @@
-import"package:flutter/material.dart";
-import 'package:food_app/screens/cart_payment/payment_screen.dart';
+import "package:flutter/material.dart";
+import 'package:food_app/screens/payment_screen.dart';
 
 class CartScreen extends StatefulWidget {
-
+  static const String id = 'CartScreen';
 
   @override
   _CartScreenState createState() => _CartScreenState();
 }
 
 class _CartScreenState extends State<CartScreen> {
-
   int numOfOrder = 1;
-  double endPrice= 0;
+  double endPrice = 0;
   double subTotal = 9.9;
-  double shipping =3.00;
-  double total= 0;
+  double shipping = 3.00;
+  double total = 0;
 
-
-
-
-  _foodCard({ String type ,  String name ,  double price ,  String img  }) {
+  _foodCard({String type, String name, double price, String img}) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Row(
@@ -68,35 +64,30 @@ class _CartScreenState extends State<CartScreen> {
                       ),
                     ),
                     Padding(
-                      padding:  EdgeInsets.all(5),
+                      padding: EdgeInsets.all(5),
                       child: Text(
                         name,
-                        style: TextStyle(
-                            fontSize: 15, fontWeight: FontWeight.bold),
+                        style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                       ),
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-
                       children: [
                         Padding(
-                          padding:  EdgeInsets.all(5),
+                          padding: EdgeInsets.all(5),
                           child: Text(
                             " \$$price",
-                            style: TextStyle(
-                                fontSize: 20, fontWeight: FontWeight.bold),
+                            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                           ),
                         ),
-
                         Row(
-
                           children: [
                             InkWell(
-                              onTap: (){
+                              onTap: () {
                                 setState(() {
-                                  if(numOfOrder>=1){
+                                  if (numOfOrder >= 1) {
                                     numOfOrder--;
-                                    subTotal = subTotal- price;
+                                    subTotal = subTotal - price;
                                     total = subTotal + shipping;
                                     // endPrice = endPrice - price ;
                                     // price=endPrice;
@@ -107,8 +98,7 @@ class _CartScreenState extends State<CartScreen> {
                                   backgroundColor: Color(0xffeef1f0),
                                   radius: 13,
                                   child: Center(
-                                    child: Icon(Icons.remove,
-                                        color: Colors.black, size: 13),
+                                    child: Icon(Icons.remove, color: Colors.black, size: 13),
                                   )),
                             ),
                             CircleAvatar(
@@ -119,24 +109,22 @@ class _CartScreenState extends State<CartScreen> {
                                   style: TextStyle(color: Colors.black, fontSize: 20),
                                 )),
                             InkWell(
-                              onTap: (){
+                              onTap: () {
                                 setState(() {
-                                  if(numOfOrder>=0){
+                                  if (numOfOrder >= 0) {
                                     numOfOrder++;
-                                    subTotal = subTotal+price;
+                                    subTotal = subTotal + price;
                                     total = subTotal + shipping;
                                     // endPrice = endPrice+price;
                                     // price=endPrice;
                                   }
-
                                 });
                               },
                               child: CircleAvatar(
                                   backgroundColor: Colors.black,
                                   radius: 13,
                                   child: Center(
-                                    child:
-                                    Icon(Icons.add, color: Colors.white, size: 13),
+                                    child: Icon(Icons.add, color: Colors.white, size: 13),
                                   )),
                             ),
                           ],
@@ -145,7 +133,6 @@ class _CartScreenState extends State<CartScreen> {
                     ),
                   ],
                 ),
-
               ],
             ),
           ),
@@ -153,7 +140,6 @@ class _CartScreenState extends State<CartScreen> {
       ),
     );
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -187,9 +173,13 @@ class _CartScreenState extends State<CartScreen> {
             child: ListView(
               children: [
                 // _foodCard(name: "Beef burger", type: "Beef burger", price: 9.90 , img: "https://top10cairo.com/wp-content/uploads/2020/01/Good-Stuff-Eatery-Best-Burger-Restaurants-in-Egypt.jpg"),
-                _foodCard(name: "Beef burger", type: "combo Beef burger", price: 9.90 , img: "https://e7.pngegg.com/pngimages/339/456/png-clipart-mcdonald-s-combo-meal-mcdonald-s-chicken-mcnuggets-fizzy-drinks-mcdonald-s-big-mac-hamburger-coca-cola-mcdonalds-food-breakfast.png"),
+                _foodCard(
+                    name: "Beef burger",
+                    type: "combo Beef burger",
+                    price: 9.90,
+                    img:
+                        "https://e7.pngegg.com/pngimages/339/456/png-clipart-mcdonald-s-combo-meal-mcdonald-s-chicken-mcnuggets-fizzy-drinks-mcdonald-s-big-mac-hamburger-coca-cola-mcdonalds-food-breakfast.png"),
                 // _foodCard(name: "Beef burger", type: "Beef burger", price: 9.90 , img: "https://top10cairo.com/wp-content/uploads/2020/01/Good-Stuff-Eatery-Best-Burger-Restaurants-in-Egypt.jpg"),
-
               ],
             ),
           ),
@@ -211,17 +201,13 @@ class _CartScreenState extends State<CartScreen> {
               ],
             ),
             child: Column(
-
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 // _coupon(),
                 Container(
                   width: 40,
                   child: Center(
-                    child: Divider(
-                        thickness: 4,
-                        color: Colors.grey.shade600
-                    ),
+                    child: Divider(thickness: 4, color: Colors.grey.shade600),
                   ),
                 ),
                 Padding(
@@ -284,8 +270,7 @@ class _CartScreenState extends State<CartScreen> {
                       ),
                       Text(
                         "\$ ${total.toStringAsFixed(2)}",
-                        style:
-                        TextStyle(fontSize: 20, color: Color(0xfffa9f15)),
+                        style: TextStyle(fontSize: 20, color: Color(0xfffa9f15)),
                       ),
                     ],
                   ),
@@ -296,15 +281,12 @@ class _CartScreenState extends State<CartScreen> {
                   children: [
                     Text(
                       "\$${total.toStringAsFixed(2)}",
-                      style:
-                      TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                      style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
                     ),
                     InkWell(
                       onTap: () {
                         Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => PaymentScreen(total)));
+                            context, MaterialPageRoute(builder: (context) => PaymentScreen(total)));
                       },
                       child: Container(
                         height: 50,
@@ -322,9 +304,9 @@ class _CartScreenState extends State<CartScreen> {
                         ),
                         child: Center(
                             child: Text(
-                              "Pay now",
-                              style: TextStyle(color: Colors.white, fontSize: 20),
-                            )),
+                          "Pay now",
+                          style: TextStyle(color: Colors.white, fontSize: 20),
+                        )),
                       ),
                     ),
                   ],

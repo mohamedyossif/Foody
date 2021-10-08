@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:food_app/screens/cart_Screen.dart';
+import 'package:food_app/screens/payment_screen.dart';
 import 'package:food_app/screens/profile_screen.dart';
+import 'package:food_app/screens/succesful_payment.dart';
 import 'package:food_app/services/auth_firebase.dart';
 import 'package:food_app/services/shared_preferences.dart';
 import 'screens/welcome.dart';
@@ -41,6 +44,8 @@ class MyApp extends StatelessWidget {
           HomeScreen.id: (context) => HomeScreen(),
           ItemDetailsScreen.id: (context) => ItemDetailsScreen(),
           ProfileScreen.id: (context) => ProfileScreen(),
+          CartScreen.id: (context) => CartScreen(),
+          SuccessPayment.id: (context) => SuccessPayment()
         },
         initialRoute: isCkeck ? HomeScreen.id : WelcomeScreen.id,
       ),

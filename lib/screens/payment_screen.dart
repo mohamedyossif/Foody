@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:food_app/screens/cart_payment/cart_Screen.dart';
-import 'package:food_app/screens/cart_payment/succesful_payment.dart';
+import 'package:food_app/screens/cart_Screen.dart';
+import 'package:food_app/screens/succesful_payment.dart';
 
 class PaymentScreen extends StatefulWidget {
-  static String id = 'payment_screen';
+  static const String id = 'PaymentScreen';
   double total;
+
   PaymentScreen(this.total);
 
   @override
@@ -13,19 +14,21 @@ class PaymentScreen extends StatefulWidget {
 
 class _PaymentScreenState extends State<PaymentScreen> {
   double total;
+
   _PaymentScreenState(this.total);
+
   List<Map<String, dynamic>> cards = [
     {"isSelected": true},
-    { "isSelected": false},
+    {"isSelected": false},
     {"isSelected": false},
   ];
   int _selectedCard = 0;
-  _paymentCard(
-      { String img,  int index, bool selected}) {
+
+  _paymentCard({String img, int index, bool selected}) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: InkWell(
-        onTap: (){
+        onTap: () {
           setState(() {
             cards[_selectedCard]['isSelected'] = false;
             _selectedCard = index;
@@ -36,8 +39,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
           decoration: BoxDecoration(
               color: selected ? Colors.white : Color(0xffF8F8F8),
               borderRadius: BorderRadius.circular(10),
-              border: Border.all(
-                  color:  selected ? Colors.black :  Colors.transparent)),
+              border: Border.all(color: selected ? Colors.black : Colors.transparent)),
           height: 40,
           width: 100,
           child: Center(
@@ -60,8 +62,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
           elevation: 0,
           leading: IconButton(
               onPressed: () {
-                Navigator.pop(context,
-                    MaterialPageRoute(builder: (context) => CartScreen()));
+                Navigator.pop(context, MaterialPageRoute(builder: (context) => CartScreen()));
               },
               icon: Icon(Icons.arrow_back_ios, color: Colors.black)),
           title: Text(
@@ -155,11 +156,21 @@ class _PaymentScreenState extends State<PaymentScreen> {
             padding: const EdgeInsets.only(bottom: 70),
             child: Row(
               children: [
-                _paymentCard(img: "assets/images/mastercard.png" , index: 0 , selected:cards[0]['isSelected'] ,),
-                _paymentCard(img: "assets/images/paypal.png", index: 1 , selected:cards[1]['isSelected'],),
-                _paymentCard(img: "assets/images/venmo.png",index: 2 , selected:cards[2]['isSelected'],),
-
-
+                _paymentCard(
+                  img: "assets/images/mastercard.png",
+                  index: 0,
+                  selected: cards[0]['isSelected'],
+                ),
+                _paymentCard(
+                  img: "assets/images/paypal.png",
+                  index: 1,
+                  selected: cards[1]['isSelected'],
+                ),
+                _paymentCard(
+                  img: "assets/images/venmo.png",
+                  index: 2,
+                  selected: cards[2]['isSelected'],
+                ),
               ],
             ),
           ),
@@ -227,9 +238,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                   InkWell(
                     onTap: () {
                       Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => SuccessPayment()));
+                          context, MaterialPageRoute(builder: (context) => SuccessPayment()));
                     },
                     child: Padding(
                       padding: const EdgeInsets.all(25),
@@ -249,9 +258,9 @@ class _PaymentScreenState extends State<PaymentScreen> {
                         ),
                         child: Center(
                             child: Text(
-                              "Pay now",
-                              style: TextStyle(color: Colors.white, fontSize: 25),
-                            )),
+                          "Pay now",
+                          style: TextStyle(color: Colors.white, fontSize: 25),
+                        )),
                       ),
                     ),
                   ),

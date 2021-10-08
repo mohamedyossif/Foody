@@ -3,6 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/widgets.dart';
+import 'package:food_app/screens/cart_Screen.dart';
+import 'package:food_app/screens/payment_screen.dart';
 import 'package:food_app/services/height_provider.dart';
 import 'package:food_app/widgets/custom_button.dart';
 import 'package:food_app/widgets/details_icon.dart';
@@ -143,7 +145,9 @@ class Screen extends StatelessWidget {
                         children: [
                           CustomButton(
                             text: 'Add To Cart',
-                            function: () {},
+                            function: () {
+                              Navigator.pushNamed(context, CartScreen.id);
+                            },
                           )
                         ],
                       ),
