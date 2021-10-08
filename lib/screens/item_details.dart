@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/widgets.dart';
 import 'package:food_app/services/height_provider.dart';
+import 'package:food_app/services/icons_provider.dart';
 import 'package:food_app/widgets/custom_button.dart';
 import 'package:food_app/widgets/details_icon.dart';
 import 'package:food_app/widgets/item_count_button.dart';
@@ -33,10 +34,10 @@ class ItemDetailsScreen extends StatelessWidget {
   final String foodName;
   final String image;
   final String price;
-  final bool veryHealthy;
-  final bool vegan;
-  final bool veryPopular;
-  final double readyInMinutes;
+  final String veryHealthy;
+  final String vegan;
+  final String veryPopular;
+  final String readyInMinutes;
 
   @override
   Widget build(BuildContext context) {
@@ -44,6 +45,7 @@ class ItemDetailsScreen extends StatelessWidget {
       providers: [
         ChangeNotifierProvider<CounterProvider>(create: (_) => CounterProvider()),
         ChangeNotifierProvider<HeightProvider>(create: (_) => HeightProvider()),
+        ChangeNotifierProvider<HighlightsProvider>(create: (_) => HighlightsProvider())
       ],
       child: Screen(
         foodName: foodName,
@@ -79,10 +81,10 @@ class Screen extends StatelessWidget {
   final String foodName;
   final String image;
   final String price;
-  final bool veryHealthy;
-  final bool vegan;
-  final bool veryPopular;
-  final double readyInMinutes;
+  final String veryHealthy;
+  final String vegan;
+  final String veryPopular;
+  final String readyInMinutes;
 
   @override
   Widget build(BuildContext context) {
@@ -207,33 +209,28 @@ class Screen extends StatelessWidget {
                         //     ],
                         //   ),
                         // ),
-                        // Padding(
-                        //   padding: const EdgeInsets.symmetric(vertical: 8.0),
-                        //   child: Text(
-                        //     'Ingredients',
-                        //     style: TextStyle(fontSize: 25, fontWeight: FontWeight.w800),
-                        //   ),
-                        // ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 11),
+                          child: Text(
+                            'Highlights:',
+                            style: TextStyle(fontSize: 25, fontWeight: FontWeight.w800),
+                          ),
+                        ),
                         SizedBox(
                           height: MediaQuery.of(context).size.height * 9 / 100,
-                          width: 60,
-                          child: ListView(
-                            scrollDirection: Axis.horizontal,
-                            children: [
-                              DetailsIcon(
-                                icon: 'assets/images/Icon_taco.png',
-                              ),
-                              DetailsIcon(
-                                icon: 'assets/images/Icon_taco.png',
-                              ),
-                              DetailsIcon(
-                                icon: 'assets/images/Icon_taco.png',
-                              ),
-                              DetailsIcon(
-                                icon: 'assets/images/Icon_taco.png',
-                              ),
-                            ],
-                          ),
+                          width: MediaQuery.of(context).size.width * 9 / 100,
+                          child: Consumer<HighlightsProvider>(builder: (_, value, child) {
+                            return ListView(
+                              scrollDirection: Axis.horizontal,
+                              children: [
+                                Provider.of<HighlightsProvider>(context).popular(veryPopular),
+                                Provider.of<HighlightsProvider>(context)
+                                    .readyInMinutes(readyInMinutes),
+                                Provider.of<HighlightsProvider>(context).healthy(veryHealthy),
+                                Provider.of<HighlightsProvider>(context).vegan(vegan)
+                              ],
+                            );
+                          }),
                         ),
                       ],
                     );

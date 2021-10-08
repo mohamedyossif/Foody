@@ -7,7 +7,7 @@ class FoodList {
   final bool veryHealthy;
   final bool vegan;
   final bool veryPopular;
-  final double readyInMinutes;
+  final int readyInMinutes;
   Nutrition nutrition;
 
   FoodList(

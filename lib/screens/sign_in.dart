@@ -47,7 +47,7 @@ class Screen extends StatelessWidget {
               ),
               Padding(
                 padding: const EdgeInsets.all(30),
-                child: Image.asset('assets/images/salad.png'),
+                child: Image.asset('assets/images/assets/salad.png'),
               ),
               Form(
                 key: _formKey,
@@ -86,8 +86,9 @@ class Screen extends StatelessWidget {
                         Provider.of<SignInProvider>(context, listen: false).loading();
                         await AuthFirebaseMethods()
                             .signInWithEmailAndPassword(context, email, password);
-                            /// save state of screen
-                            SharedPreferencesDatabase.saveUserLoggedInKey(true);
+
+                        /// save state of screen
+                        SharedPreferencesDatabase.saveUserLoggedInKey(true);
                         Navigator.pushNamed(context, ItemDetailsScreen.id);
                         Provider.of<SignInProvider>(context, listen: false).signed();
                       }
