@@ -11,10 +11,10 @@ class CustomizedGridViewItem extends StatelessWidget {
   final String foodName;
   final String image;
   final String price;
-  final bool veryHealthy;
-  final bool vegan;
-  final bool veryPopular;
-  final double readyInMinutes;
+  final String veryHealthy;
+  final String vegan;
+  final String veryPopular;
+  final String readyInMinutes;
 
   CustomizedGridViewItem(
       {this.foodName,
@@ -84,7 +84,7 @@ class CustomizedGridViewItem extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      '20 min',
+                      '$readyInMinutes min',
                       style: TextStyle(color: Colors.grey),
                     ),
                     Text('⭐ 4.5'),

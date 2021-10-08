@@ -22,11 +22,11 @@ class WelcomeScreen extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.all(15),
                   child: Image.asset(
-                    'assets/images/pizza.jpg',
+                    'assets/images/assets/pizza.jpg',
                   ),
                 ),
-                Image.asset('assets/images/frenchFries.jpg'),
-                Image.asset('assets/images/burger.jpg'),
+                Image.asset('assets/images/assets/frenchFries.jpg'),
+                Image.asset('assets/images/assets/burger.jpg'),
               ],
               options: CarouselOptions(
                   enlargeCenterPage: true, height: MediaQuery.of(context).size.height * 40 / 100),

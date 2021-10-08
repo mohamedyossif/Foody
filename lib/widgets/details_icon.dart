@@ -11,6 +11,7 @@ class DetailsIcon extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Image.asset(
