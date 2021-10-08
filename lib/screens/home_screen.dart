@@ -42,34 +42,8 @@ class HomeScreen extends StatelessWidget {
             height: 10.0,
           ),
           SearchBar(),
-
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 10.0),
-            child: Text(
-              'Find',
-              style: TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 25.0),
-            ),
-          ),
-          //=============================================== select category
-          //=========================================================================
-          GestureDetector(
-            onTap: () => Provider.of<MyProvider>(context, listen: false)
-                .selectedCategoryFunc(),
-            child: Container(
-              height: 60.0,
-              width: 300,
-              child: FutureBuilder<List<FoodList>>(
-                  future: NetworkingAPI.getData(),
-                  builder: (context, snapshot) => snapshot.hasData
-                      ? CustomizedCategoryItem()
-                      : CircularProgressIndicator()),
-            ),
-          ),
-          SizedBox(
-            height: 10.0,
           ),
           //=================================================Grid View
           //====================================================================
@@ -87,6 +61,7 @@ class HomeScreen extends StatelessWidget {
                           itemBuilder: (context, index) {
                            // String image = snapshot.data[index].image.toString();
                             return CustomizedGridViewItem(
+                              index: index,
                               foodName:snapshot.data[index].title.toString() ,
                               image: snapshot.data[index].image.toString(),
                               price: snapshot.data[index].price.toStringAsFixed(0).toString(),

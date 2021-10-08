@@ -14,7 +14,6 @@ class SearchBar extends StatelessWidget {
       child: TextField(
         decoration: InputDecoration(
             border: InputBorder.none,
-          //   hoverColor:Colors.yellow,
             suffixIcon:    Icon(
               Icons.search,
               color: basicColor,

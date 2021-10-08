@@ -109,7 +109,7 @@ class Screen extends StatelessWidget {
                         ),
                         Center(
                             child: Text('\$ 24.99',
-                                style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600))),
+                                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.green))),
                         const SizedBox(height: 10),
                         Text(
                           'Beef Burger',
