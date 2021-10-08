@@ -15,7 +15,7 @@ class _CartScreenState extends State<CartScreen> {
   double subTotal = 9.9;
   double shipping =3.00;
   double total= 0;
-
+  bool isSelected= true;
 
 
 
@@ -25,10 +25,34 @@ class _CartScreenState extends State<CartScreen> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          Icon(
-            Icons.check_box_rounded,
-            color: Colors.orange,
-            size: 30,
+          InkWell(
+            onTap: (){
+              setState(() {
+                if(isSelected== true){
+                  isSelected = false;
+                  total = total - price;
+                  shipping = 0;
+                  numOfOrder=0;
+                }
+                else{
+                  isSelected = true;
+                  total = total + price;
+                  numOfOrder = 1;
+
+                }
+              });
+            },
+            child: Container(
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.orange),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Icon(
+                Icons.check_box_rounded,
+                color: isSelected?Colors.orange:Colors.transparent,
+                size: 30,
+              ),
+            ),
           ),
           Container(
             padding: EdgeInsets.all(8.0),
