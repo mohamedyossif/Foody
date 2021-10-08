@@ -1,4 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:food_app/constants.dart';
+import 'package:food_app/screens/welcome.dart';
 import 'package:food_app/services/dataBase.dart';
 import 'package:food_app/services/shared_preferences.dart';
 import 'package:food_app/widgets/custom_button.dart';
@@ -24,11 +27,6 @@ class SignUpScreen extends StatelessWidget {
 }
 
 class Screen extends StatelessWidget {
-  String email = '';
-  String password = '';
-  String username = '';
-  String address = '';
-  String phone = '';
   bool isLoading = false;
   AuthFirebaseMethods authFirebaseMethods = AuthFirebaseMethods();
   FireStoreDatabaseMethods fireStoreDatabaseMethods = FireStoreDatabaseMethods();
@@ -58,7 +56,7 @@ class Screen extends StatelessWidget {
   }
 
   checkEmail() async {
-    await fireStoreDatabaseMethods.searchEmail(_email.text).then((value) => resultOfEmail = value);
+    await fireStoreDatabaseMethods.searchEmail(_email.text).then((List<QueryDocumentSnapshot> value) => resultOfEmail = value.length);
   }
 
   @override
@@ -82,7 +80,7 @@ class Screen extends StatelessWidget {
                 ),
                 Padding(
                     padding: const EdgeInsets.all(30),
-                    child: Image.asset('assets/images/assets/deliveryman.jpg')),
+                    child: Image.asset('assets/images/deliveryman.jpg')),
                 Form(
                   key: _formKey,
                   child: Column(
@@ -95,18 +93,14 @@ class Screen extends StatelessWidget {
                         ]),
                         icon: Icons.person,
                         labelText: 'Username',
-                        function: (value) {
-                          username = value;
-                        },
+
                       ),
                       CustomTextField(
                         controller: _address,
                         validator: RequiredValidator(errorText: "Required"),
                         icon: Icons.home,
                         labelText: 'Address',
-                        function: (value) {
-                          address = value;
-                        },
+
                       ),
                       CustomTextField(
                         controller: _phone,
@@ -117,9 +111,7 @@ class Screen extends StatelessWidget {
                         ]),
                         icon: Icons.phone,
                         labelText: 'Mobile number',
-                        function: (value) {
-                          phone = value;
-                        },
+
                       ),
                       CustomTextField(
                         controller: _email,
@@ -129,9 +121,7 @@ class Screen extends StatelessWidget {
                         ]),
                         icon: Icons.email,
                         labelText: 'Email',
-                        function: (value) {
-                          email = value;
-                        },
+
                       ),
                       CustomTextField(
                         controller: _password,
@@ -147,9 +137,9 @@ class Screen extends StatelessWidget {
                         icon: Icons.lock,
                         labelText: 'Password',
                         obscure: true,
-                        function: (value) {
-                          password = value;
-                        },
+                        // function: (value) {
+                        //   password = value;
+                        // },
                       ),
                     ],
                   ),
@@ -160,7 +150,6 @@ class Screen extends StatelessWidget {
                       function: () async {
                         await checkUsersName();
                         await checkEmail();
-
                         ///check user or email is exist or not
                         if (resultOfUserName != 0 && resultOfEmail != 0) {
                           buildSnackBar(context, 'Email and username are not available');
@@ -170,20 +159,20 @@ class Screen extends StatelessWidget {
                           buildSnackBar(context, 'Email is not available');
                         } else if (_formKey.currentState.validate()) {
                           Provider.of<SignUpProvider>(context, listen: false).loading();
-                          await AuthFirebaseMethods().signUpWithEmailAndPassword(email, password);
-
+                          await AuthFirebaseMethods().signUpWithEmailAndPassword(_email.text, _password.text);
                           /// save state of screen
                           SharedPreferencesDatabase.saveUserLoggedInKey(true);
+                          ///save username
+                          SharedPreferencesDatabase.saveUserNameKey(_userName.text);
                           Map<String, dynamic> userInfo = {
                             'address': _address.text,
                             'email': _email.text,
                             'phone': _phone.text,
                             'username': _userName.text,
                           };
-
                           ///store ur data in FireStore
                           fireStoreDatabaseMethods.upLoadProfile(userInfo, _userName.text);
-                          Navigator.pushNamed(context, HomeScreen.id);
+                         Navigator.pushReplacementNamed(context, HomeScreen.id);
                           Provider.of<SignUpProvider>(context, listen: false).signed();
                         }
                       });

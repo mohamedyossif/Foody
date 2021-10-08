@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/widgets.dart';
 import 'package:food_app/screens/cart_Screen.dart';
-import 'package:food_app/screens/payment_screen.dart';
 import 'package:food_app/services/height_provider.dart';
 import 'package:food_app/widgets/custom_button.dart';
 import 'package:food_app/widgets/details_icon.dart';
@@ -12,6 +11,7 @@ import 'package:food_app/widgets/item_count_button.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/rendering.dart';
 import 'package:readmore/readmore.dart';
+import 'package:food_app/constants.dart';
 
 class ItemDetailsScreen extends StatelessWidget {
   ItemDetailsScreen(
@@ -23,8 +23,7 @@ class ItemDetailsScreen extends StatelessWidget {
       @required this.veryHealthy,
       @required this.readyInMinutes,
       @required this.veryPopular
-      // @required this.title,
-      // @required this.nutrition
+
       });
 
   static const String id = 'ItemDetailsScreen';
@@ -146,7 +145,16 @@ class Screen extends StatelessWidget {
                           CustomButton(
                             text: 'Add To Cart',
                             function: () {
-                              Navigator.pushNamed(context, CartScreen.id);
+                              Map<String,dynamic>cartInfo={
+                                'title':foodName,
+                                'price':price,
+                                'image':image,
+                              };
+                               print(usernameId);
+                              fireStoreDatabaseMethods.storeCart(usernameId, cartInfo);
+                              Navigator.push(context,MaterialPageRoute(builder:(c)=>CartScreen(
+                                count:10,
+                              )));
                             },
                           )
                         ],

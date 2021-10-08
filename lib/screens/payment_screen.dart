@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:food_app/constants.dart';
 import 'package:food_app/screens/cart_Screen.dart';
 import 'package:food_app/screens/succesful_payment.dart';
 
@@ -236,9 +237,12 @@ class _PaymentScreenState extends State<PaymentScreen> {
                   ),
 
                   InkWell(
-                    onTap: () {
-                      Navigator.push(
-                          context, MaterialPageRoute(builder: (context) => SuccessPayment()));
+                    onTap: () async{
+
+                       await fireStoreDatabaseMethods.deleteCartItem(usernameId);
+                        Navigator.push(
+                            context, MaterialPageRoute(builder: (context) => SuccessPayment()));
+
                     },
                     child: Padding(
                       padding: const EdgeInsets.all(25),

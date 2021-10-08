@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:food_app/constants.dart';
@@ -15,7 +16,12 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   File image;
-
+  List<IconData> icons = [
+    Icons.person,
+    Icons.phone,
+    Icons.email,
+    Icons.location_on
+  ];
   Future pickImage() async {
     try {
       final image = await ImagePicker().pickImage(source: ImageSource.gallery);
@@ -31,7 +37,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-   // double width = MediaQuery.of(context).size.width;
+    // double width = MediaQuery.of(context).size.width;
     return Scaffold(
       body: SafeArea(
         maintainBottomViewPadding: true,
@@ -67,21 +73,30 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                 ],
               ),
-              CustomizedInfoItem(
-                icon: Icons.person,
-                label: 'name',
-              ),
-              CustomizedInfoItem(
-                icon: Icons.phone,
-                label: '01023124556',
-              ),
-              CustomizedInfoItem(
-                icon: Icons.email,
-                label: 'email',
-              ),
-              CustomizedInfoItem(
-                icon: Icons.location_on,
-                label: 'address',
+              FutureBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+                future: fireStoreDatabaseMethods.getUserInformation(usernameId),
+                builder: (c, snapshot) => snapshot.hasData
+                    ? Column(
+                        children: [
+                          CustomizedInfoItem(
+                            icon: Icons.person,
+                            label: snapshot.data.data()['username'],
+                          ),
+                          CustomizedInfoItem(
+                            icon: Icons.phone,
+                            label: snapshot.data.data()['phone'],
+                          ),
+                          CustomizedInfoItem(
+                            icon: Icons.email,
+                            label: snapshot.data.data()['email'],
+                          ),
+                          CustomizedInfoItem(
+                            icon: Icons.location_on,
+                            label: snapshot.data.data()['address'],
+                          ),
+                        ],
+                      )
+                    : Container(),
               ),
             ],
           ),

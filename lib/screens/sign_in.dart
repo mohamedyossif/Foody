@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:food_app/constants.dart';
+import 'package:food_app/screens/home_screen.dart';
 import 'package:food_app/services/shared_preferences.dart';
 import 'package:food_app/services/sign_provider.dart';
 import 'package:food_app/widgets/custom_button.dart';
@@ -16,13 +18,12 @@ class SignInScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(create: (_) => SignInProvider(), child: Screen());
+    return ChangeNotifierProvider(
+        create: (_) => SignInProvider(), child: Screen());
   }
 }
 
 class Screen extends StatelessWidget {
-  String email = '';
-  String password = '';
   TextEditingController _email = TextEditingController();
   TextEditingController _password = TextEditingController();
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -43,11 +44,13 @@ class Screen extends StatelessWidget {
               Text(
                 'Welcome Back!',
                 style: TextStyle(
-                    color: const Color(0xffD4361C), fontSize: 50, fontWeight: FontWeight.w700),
+                    color: const Color(0xffD4361C),
+                    fontSize: 50,
+                    fontWeight: FontWeight.w700),
               ),
               Padding(
                 padding: const EdgeInsets.all(30),
-                child: Image.asset('assets/images/assets/salad.png'),
+                child: Image.asset('assets/images/salad.png'),
               ),
               Form(
                 key: _formKey,
@@ -57,13 +60,14 @@ class Screen extends StatelessWidget {
                       controller: _email,
                       validator: MultiValidator([
                         RequiredValidator(errorText: "Required"),
-                        EmailValidator(errorText: "Please enter a valid email address"),
+                        EmailValidator(
+                            errorText: "Please enter a valid email address"),
                       ]),
                       icon: Icons.email,
                       labelText: 'Email',
-                      function: (value) {
-                        email = value;
-                      },
+                      // function: (value) {
+                      //   email = value;
+                      // },
                     ),
                     CustomTextField(
                       controller: _password,
@@ -71,9 +75,9 @@ class Screen extends StatelessWidget {
                       icon: Icons.lock,
                       labelText: 'Password',
                       obscure: true,
-                      function: (value) {
-                        password = value;
-                      },
+                      // function: (value) {
+                      //   password = value;
+                      // },
                     ),
                   ],
                 ),
@@ -83,14 +87,24 @@ class Screen extends StatelessWidget {
                     text: 'Sign In',
                     function: () async {
                       if (_formKey.currentState.validate()) {
-                        Provider.of<SignInProvider>(context, listen: false).loading();
-                        await AuthFirebaseMethods()
-                            .signInWithEmailAndPassword(context, email, password);
+                        Provider.of<SignInProvider>(context, listen: false)
+                            .loading();
+                        await AuthFirebaseMethods().signInWithEmailAndPassword(
+                            context, _email.text, _password.text);
 
                         /// save state of screen
                         SharedPreferencesDatabase.saveUserLoggedInKey(true);
-                        Navigator.pushNamed(context, ItemDetailsScreen.id);
-                        Provider.of<SignInProvider>(context, listen: false).signed();
+
+                        /// get username by email
+                        fireStoreDatabaseMethods
+                            .searchEmail(_email.text)
+                            .then((value) {
+                          SharedPreferencesDatabase.saveUserNameKey(
+                              value[0].data()['username']);
+                        });
+                        Navigator.pushReplacementNamed(context, HomeScreen.id);
+                        Provider.of<SignInProvider>(context, listen: false)
+                            .signed();
                       }
                     });
               })

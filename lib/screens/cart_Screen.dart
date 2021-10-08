@@ -1,8 +1,14 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import "package:flutter/material.dart";
+import 'package:food_app/constants.dart';
 import 'package:food_app/screens/payment_screen.dart';
+import 'package:food_app/widgets/item_count_button.dart';
+import 'package:provider/provider.dart';
 
 class CartScreen extends StatefulWidget {
   static const String id = 'CartScreen';
+  int count;
+  CartScreen({this.count});
 
   @override
   _CartScreenState createState() => _CartScreenState();
@@ -15,7 +21,7 @@ class _CartScreenState extends State<CartScreen> {
   double shipping = 3.00;
   double total = 0;
 
-  _foodCard({String type, String name, double price, String img}) {
+  _foodCard({String name, double price, String img}) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Row(
@@ -59,19 +65,12 @@ class _CartScreenState extends State<CartScreen> {
                     Padding(
                       padding: EdgeInsets.all(5),
                       child: Text(
-                        type,
-                        style: TextStyle(color: Color(0xfff54749)),
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.all(5),
-                      child: Text(
                         name,
                         style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                       ),
                     ),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         Padding(
                           padding: EdgeInsets.all(5),
@@ -80,54 +79,9 @@ class _CartScreenState extends State<CartScreen> {
                             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                           ),
                         ),
-                        Row(
-                          children: [
-                            InkWell(
-                              onTap: () {
-                                setState(() {
-                                  if (numOfOrder >= 1) {
-                                    numOfOrder--;
-                                    subTotal = subTotal - price;
-                                    total = subTotal + shipping;
-                                    // endPrice = endPrice - price ;
-                                    // price=endPrice;
-                                  }
-                                });
-                              },
-                              child: CircleAvatar(
-                                  backgroundColor: Color(0xffeef1f0),
-                                  radius: 13,
-                                  child: Center(
-                                    child: Icon(Icons.remove, color: Colors.black, size: 13),
-                                  )),
-                            ),
-                            CircleAvatar(
-                                backgroundColor: Colors.transparent,
-                                radius: 13,
-                                child: Text(
-                                  numOfOrder.toString(),
-                                  style: TextStyle(color: Colors.black, fontSize: 20),
-                                )),
-                            InkWell(
-                              onTap: () {
-                                setState(() {
-                                  if (numOfOrder >= 0) {
-                                    numOfOrder++;
-                                    subTotal = subTotal + price;
-                                    total = subTotal + shipping;
-                                    // endPrice = endPrice+price;
-                                    // price=endPrice;
-                                  }
-                                });
-                              },
-                              child: CircleAvatar(
-                                  backgroundColor: Colors.black,
-                                  radius: 13,
-                                  child: Center(
-                                    child: Icon(Icons.add, color: Colors.white, size: 13),
-                                  )),
-                            ),
-                          ],
+                        Text(
+                          " ${widget.count??1}",
+                          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                         ),
                       ],
                     ),
@@ -170,18 +124,19 @@ class _CartScreenState extends State<CartScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Expanded(
-            child: ListView(
-              children: [
-                // _foodCard(name: "Beef burger", type: "Beef burger", price: 9.90 , img: "https://top10cairo.com/wp-content/uploads/2020/01/Good-Stuff-Eatery-Best-Burger-Restaurants-in-Egypt.jpg"),
-                _foodCard(
-                    name: "Beef burger",
-                    type: "combo Beef burger",
-                    price: 9.90,
-                    img:
-                        "https://e7.pngegg.com/pngimages/339/456/png-clipart-mcdonald-s-combo-meal-mcdonald-s-chicken-mcnuggets-fizzy-drinks-mcdonald-s-big-mac-hamburger-coca-cola-mcdonalds-food-breakfast.png"),
-                // _foodCard(name: "Beef burger", type: "Beef burger", price: 9.90 , img: "https://top10cairo.com/wp-content/uploads/2020/01/Good-Stuff-Eatery-Best-Burger-Restaurants-in-Egypt.jpg"),
-              ],
-            ),
+            child: FutureBuilder<List<QueryDocumentSnapshot<Map<String, dynamic>>>>(
+              future: fireStoreDatabaseMethods.getCart(usernameId),
+              builder: (context,snapshot)=>snapshot.hasData?ListView.builder(
+                itemCount: snapshot.data.length,
+                  shrinkWrap: true,
+                  itemBuilder:(context,index)=>_foodCard(
+                    name: snapshot.data[index].data()['title'],
+                    price: double.parse(snapshot.data[index].data()['price']),
+                    img: snapshot.data[index].data()['image'],
+                  )
+              ):Center(child: Container(),),
+
+            )
           ),
           Container(
             height: MediaQuery.of(context).size.height / 2,
@@ -242,22 +197,6 @@ class _CartScreenState extends State<CartScreen> {
                     ],
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Discount",
-                        style: TextStyle(fontSize: 20),
-                      ),
-                      Text(
-                        "\$ 0",
-                        style: TextStyle(fontSize: 20),
-                      ),
-                    ],
-                  ),
-                ),
                 //lineeee
                 Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -285,8 +224,10 @@ class _CartScreenState extends State<CartScreen> {
                     ),
                     InkWell(
                       onTap: () {
-                        Navigator.push(
-                            context, MaterialPageRoute(builder: (context) => PaymentScreen(total)));
+                        setState(() {
+                          Navigator.push(
+                              context, MaterialPageRoute(builder: (context) => PaymentScreen(total)));
+                        });
                       },
                       child: Container(
                         height: 50,
