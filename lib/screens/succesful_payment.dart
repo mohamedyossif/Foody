@@ -33,7 +33,7 @@ class _SuccessPaymentState extends State<SuccessPayment> {
       ),
       body: Column(
         children: [
-          Image(image: AssetImage('assets/images/delig.png')),
+          Image(image: AssetImage('assets/images/delir.png')),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 50),
             child: Text(
