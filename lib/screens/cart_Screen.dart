@@ -1,9 +1,5 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import "package:flutter/material.dart";
-import 'package:food_app/constants.dart';
-import 'package:food_app/screens/payment_screen.dart';
-import 'package:food_app/widgets/item_count_button.dart';
-import 'package:provider/provider.dart';
+import"package:flutter/material.dart";
+import 'package:food_app/screens/cart_payment/payment_screen.dart';
 
 class CartScreen extends StatefulWidget {
   static const String id = 'CartScreen';
@@ -15,11 +11,14 @@ class CartScreen extends StatefulWidget {
 }
 
 class _CartScreenState extends State<CartScreen> {
-  int numOfOrder;
-  double endPrice;
-  double subTotal;
-  double shipping;
-  double total;
+
+  int numOfOrder = 1;
+  double endPrice= 0;
+  double subTotal = 9.9;
+  double shipping =3.00;
+  double total= 0;
+  bool isSelected= true;
+
 
   _foodCard({String name, double price, String img}) {
     return Padding(
@@ -27,6 +26,35 @@ class _CartScreenState extends State<CartScreen> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
+          InkWell(
+            onTap: (){
+              setState(() {
+                if(isSelected== true){
+                  isSelected = false;
+                  total = total - price;
+                  shipping = 0;
+                  numOfOrder=0;
+                }
+                else{
+                  isSelected = true;
+                  total = total + price;
+                  numOfOrder = 1;
+
+                }
+              });
+            },
+            child: Container(
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.orange),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Icon(
+                Icons.check_box_rounded,
+                color: isSelected?Colors.orange:Colors.transparent,
+                size: 30,
+              ),
+            ),
+          ),
           Container(
             padding: EdgeInsets.all(8.0),
             width: 300,
@@ -90,6 +118,7 @@ class _CartScreenState extends State<CartScreen> {
     );
   }
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -151,6 +180,7 @@ class _CartScreenState extends State<CartScreen> {
               ],
             ),
             child: Column(
+
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 // _coupon(),
