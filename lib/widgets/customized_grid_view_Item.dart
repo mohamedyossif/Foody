@@ -64,14 +64,13 @@ class CustomizedGridViewItem extends StatelessWidget {
                           veryHealthy: veryHealthy,
                           veryPopular: veryPopular,
                         ),
-
                       ),
                     );
                   },
                   child: Image(
                     fit: BoxFit.cover,
-                   height: MediaQuery.of(context).size.height/6.5,
-                    width: MediaQuery.of(context).size.height/5,
+                    height: MediaQuery.of(context).size.height / 6.5,
+                    width: MediaQuery.of(context).size.height / 5,
                     image: NetworkImage(image),
                   ),
                 ),
@@ -79,7 +78,7 @@ class CustomizedGridViewItem extends StatelessWidget {
                   height: 10.0,
                 ),
                 Container(
-                  height: MediaQuery.of(context).size.height / 15,
+                  height: MediaQuery.of(context).size.height / 18,
                   child: Text(
                     '$foodName',
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),

@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:food_app/constants.dart';
+import 'package:food_app/services/providers/counter_provider.dart';
 import 'package:food_app/widgets/custom_button.dart';
+import 'package:provider/provider.dart';
 import 'NavigatoBottomBar/cart_Screen.dart';
 import 'package:food_app/screens/succesful_payment.dart';
 
 class PaymentScreen extends StatefulWidget {
   static const String id = 'PaymentScreen';
 
-
   @override
   _PaymentScreenState createState() => _PaymentScreenState();
 }
 
 class _PaymentScreenState extends State<PaymentScreen> {
-
   List<Map<String, dynamic>> cards = [
     {"isSelected": true},
     {"isSelected": false},
@@ -178,29 +178,26 @@ class _PaymentScreenState extends State<PaymentScreen> {
                         ),
                         Text(
                           "\$${totalPrice.toStringAsFixed(2)}",
-                          style:
-                          TextStyle(fontSize: 30, color:priceColor,fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                              fontSize: 30, color: priceColor, fontWeight: FontWeight.bold),
                         ),
                       ],
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.all(25),
-                    child:  CustomButton(
-                      text: "Pay Now",
-                      function: () async {
-                        fireStoreDatabaseMethods.deleteCartItem(usernameId);
-                        await Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => SuccessPayment()));
-                        setState(() {
-                 totalPrice=0;
-                 totalItems=0;
-                        });
-                      },
-                    ),
-                  ),
+                      padding: const EdgeInsets.all(25),
+                      child: CustomButton(
+                        text: "Pay Now",
+                        function: () async {
+                          fireStoreDatabaseMethods.deleteCartItem(usernameId);
+                          await Navigator.push(
+                              context, MaterialPageRoute(builder: (context) => SuccessPayment()));
+                          setState(() {
+                            totalPrice = 0;
+                            totalItems = 0;
+                          });
+                        },
+                      )),
                 ],
               ),
             ),
