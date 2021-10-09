@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:food_app/screens/item_details.dart';
 import 'package:provider/provider.dart';
 import 'package:food_app/my_provider.dart';
-import 'package:food_app/constants.dart';
 
 class CustomizedGridViewItem extends StatelessWidget {
   // String title;
@@ -58,15 +57,13 @@ class CustomizedGridViewItem extends StatelessWidget {
                           veryPopular: veryPopular,
                         ),
 
-                        // title: title,
-                        // nutrition: nutrition,
                       ),
                     );
                   },
                   child: Image(
                     fit: BoxFit.cover,
-                    height: 100.0,
-                    width: 100.0,
+                   height: MediaQuery.of(context).size.height/6.5,
+                    width: MediaQuery.of(context).size.height/5,
                     image: NetworkImage(image),
                   ),
                 ),
@@ -74,15 +71,15 @@ class CustomizedGridViewItem extends StatelessWidget {
                   height: 10.0,
                 ),
                 Container(
-                  height: MediaQuery.of(context).size.height / 17,
+                  height: MediaQuery.of(context).size.height / 15,
                   child: Text(
                     '$foodName',
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),
                   ),
                 ),
-                // SizedBox(
-                //   height: 10,
-                // ),
+                SizedBox(
+                  height: 10,
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [

@@ -9,9 +9,8 @@ class HeightProvider extends ChangeNotifier {
 
     notifyListeners();
   }
-
   void lessHeight(context) {
-    height = MediaQuery.of(context).size.height * 82 / 100;
+    height = MediaQuery.of(context).size.height * 84 / 100;
 
     print(height);
     notifyListeners();

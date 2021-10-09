@@ -22,9 +22,7 @@ class ItemDetailsScreen extends StatelessWidget {
       @required this.vegan,
       @required this.veryHealthy,
       @required this.readyInMinutes,
-      @required this.veryPopular
-
-      });
+      @required this.veryPopular});
 
   static const String id = 'ItemDetailsScreen';
 
@@ -90,7 +88,8 @@ class ItemDetailsScreen extends StatelessWidget {
     healthy();
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider<CounterProvider>(create: (_) => CounterProvider()),
+        ChangeNotifierProvider<CounterProvider>(
+            create: (_) => CounterProvider()),
         ChangeNotifierProvider<HeightProvider>(create: (_) => HeightProvider()),
       ],
       child: Screen(
@@ -129,6 +128,7 @@ class Screen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    count = Provider.of<CounterProvider>(context).itemCount;
     return Scaffold(
       backgroundColor: Color(0xffffd04e),
       body: SingleChildScrollView(
@@ -144,17 +144,22 @@ class Screen extends StatelessWidget {
                         children: [
                           CustomButton(
                             text: 'Add To Cart',
-                            function: () {
-                              Map<String,dynamic>cartInfo={
-                                'title':foodName,
-                                'price':price,
-                                'image':image,
+                            function: () async {
+                              Map<String, dynamic> cartInfo = {
+                                'title': foodName,
+                                'price': price,
+                                'image': image,
+                                'count': count.toString()
                               };
-                               print(usernameId);
-                              fireStoreDatabaseMethods.storeCart(usernameId, cartInfo);
-                              Navigator.push(context,MaterialPageRoute(builder:(c)=>CartScreen(
-                                count:10,
-                              )));
+                              print(usernameId);
+                              await fireStoreDatabaseMethods
+                                  .storeCart(usernameId, cartInfo, foodName)
+                                  .then((value) {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (c) => CartScreen()));
+                              });
                             },
                           )
                         ],
@@ -163,10 +168,12 @@ class Screen extends StatelessWidget {
                     margin: EdgeInsets.only(
                       top: MediaQuery.of(context).size.height * 30 / 100,
                     ),
-                    height: Provider.of<HeightProvider>(context).height,
+                    height: Provider.of<HeightProvider>(context).height +
+                        foodName.length * 3.5,
                     decoration: BoxDecoration(
                         color: Colors.white,
-                        borderRadius: BorderRadius.vertical(top: Radius.elliptical(100, 100))))
+                        borderRadius: BorderRadius.vertical(
+                            top: Radius.elliptical(100, 100))))
               ],
             ),
             Padding(
@@ -178,7 +185,8 @@ class Screen extends StatelessWidget {
                     height: MediaQuery.of(context).size.height * 10 / 100,
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(left: 20, right: 20, top: 20, bottom: 10),
+                    padding: const EdgeInsets.only(
+                        left: 20, right: 20, top: 20, bottom: 10),
                     child: CircleAvatar(
                       radius: 140,
                       backgroundImage: NetworkImage(image),
@@ -193,29 +201,42 @@ class Screen extends StatelessWidget {
                           children: [
                             ItemCountButton(
                                 icon: Icons.indeterminate_check_box,
-                                function: () =>
-                                    Provider.of<CounterProvider>(context, listen: false).remove()),
+                                function: () {
+                                  Provider.of<CounterProvider>(context,
+                                          listen: false)
+                                      .remove();
+                                  totalItems--;
+                                  totalPrice -= double.parse(price);
+                                }),
                             Text(
-                              Provider.of<CounterProvider>(context).itemCount.toString(),
-                              style: TextStyle(fontSize: 20, fontWeight: FontWeight.w900),
+                              Provider.of<CounterProvider>(context)
+                                  .itemCount
+                                  .toString(),
+                              style: TextStyle(
+                                  fontSize: 20, fontWeight: FontWeight.w900),
                             ),
                             ItemCountButton(
-                              icon: Icons.add_box,
-                              function: () =>
-                                  Provider.of<CounterProvider>(context, listen: false).add(),
-                            ),
+                                icon: Icons.add_box,
+                                function: () {
+                                  Provider.of<CounterProvider>(context,
+                                          listen: false)
+                                      .add();
+                                  totalItems++;
+                                  totalPrice += double.parse(price);
+                                }),
                           ],
                         ),
                         Center(
                             child: Text('\$ $price',
                                 style: TextStyle(
                                     color: Colors.green,
-                                    fontSize: 18,
+                                    fontSize: 22,
                                     fontWeight: FontWeight.w600))),
                         const SizedBox(height: 10),
                         Text(
                           foodName,
-                          style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                              fontSize: 40, fontWeight: FontWeight.bold),
                         ),
                         const SizedBox(
                           height: 10,
@@ -228,15 +249,18 @@ class Screen extends StatelessWidget {
                                 .substring(0, 500),
                             trimMode: TrimMode.Line,
                             trimLines: 3,
-                            style: TextStyle(fontSize: 20, color: Colors.grey[700]),
-                            colorClickableText: Colors.black,
-                            lessStyle: TextStyle(fontWeight: FontWeight.w700, color: Colors.black),
-                            moreStyle: TextStyle(fontWeight: FontWeight.w700, color: Colors.black),
+                            style: TextStyle(
+                                fontSize: 20, color: Colors.grey[700]),
+                            // colorClickableText: Colors.black,
+                            // lessStyle: TextStyle(fontWeight: FontWeight.w700, color: Colors.black),
+                            // moreStyle: TextStyle(fontWeight: FontWeight.w700, color: Colors.black),
                             callback: (value) {
                               value
-                                  ? Provider.of<HeightProvider>(context, listen: false)
+                                  ? Provider.of<HeightProvider>(context,
+                                          listen: false)
                                       .lessHeight(context)
-                                  : Provider.of<HeightProvider>(context, listen: false)
+                                  : Provider.of<HeightProvider>(context,
+                                          listen: false)
                                       .moreHeight(context);
                               print(value);
                             },
@@ -255,7 +279,8 @@ class Screen extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 11),
                           child: SizedBox(
-                            height: MediaQuery.of(context).size.height * 9 / 100,
+                            height:
+                                MediaQuery.of(context).size.height * 9 / 100,
                             width: MediaQuery.of(context).size.height * 9 / 100,
                             child: ListView(
                               scrollDirection: Axis.horizontal,

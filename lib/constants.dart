@@ -4,6 +4,9 @@ import 'package:food_app/services/dataBase.dart';
 ///
 String usernameId = '';
 String searchId = '';
+int totalItems=0;
+double totalPrice=0.0;
+int count=0;
 FireStoreDatabaseMethods fireStoreDatabaseMethods = FireStoreDatabaseMethods();
 Color basicColor = Color(0xffD4361C);
 Color secondaryColor = Color(0xfffbbc10);

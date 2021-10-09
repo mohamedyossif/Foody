@@ -1,14 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import "package:flutter/material.dart";
+import 'package:flutter/scheduler.dart';
 import 'package:food_app/screens/payment_screen.dart';
 
 import '../constants.dart';
 
 class CartScreen extends StatefulWidget {
   static const String id = 'CartScreen';
-  int count;
-
-  CartScreen({this.count});
+  
 
   @override
   _CartScreenState createState() => _CartScreenState();
@@ -16,13 +15,16 @@ class CartScreen extends StatefulWidget {
 
 class _CartScreenState extends State<CartScreen> {
   int numOfOrder = 1;
-  double endPrice = 0;
-  double subTotal = 9.9;
-  double shipping = 3.00;
+  int items = 0;
   double total = 0;
   bool isSelected = true;
+  _foodCard({String name, double price, String img,int countItem}) {
+//     items=countItem;
+// SchedulerBinding.instance.addPostFrameCallback((_){
+//   setState(() {
+//   });
+// });
 
-  _foodCard({String name, double price, String img}) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Row(
@@ -67,7 +69,7 @@ class _CartScreenState extends State<CartScreen> {
                   children: [
                     Container(
                       padding: EdgeInsets.symmetric(horizontal: 15),
-                      width: MediaQuery.of(context).size.width * 45 / 100,
+                      width: MediaQuery.of(context).size.width * 40 / 100,
                       child: Text(
                         name,
                         style: TextStyle(
@@ -90,13 +92,14 @@ class _CartScreenState extends State<CartScreen> {
                                 color: Color(0xff64941b)),
                           ),
                           SizedBox(
-                            width: MediaQuery.of(context).size.width * 5 / 100,
+                            width: MediaQuery.of(context).size.width * 2 / 100-4,
                           ),
                           Text(
-                            "${widget.count} items",
+                            "${countItem.toString()} items",
                             style: TextStyle(
                                 fontSize: 15, fontWeight: FontWeight.w600, color: Colors.black),
                           ),
+                          
                         ],
                       ),
                     ),
@@ -118,7 +121,9 @@ class _CartScreenState extends State<CartScreen> {
         backgroundColor: Colors.white,
         elevation: 0,
         leading: IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
             icon: Icon(
               Icons.arrow_back_ios,
               color: Colors.black,
@@ -128,12 +133,6 @@ class _CartScreenState extends State<CartScreen> {
           style: TextStyle(color: Colors.black),
         ),
         centerTitle: true,
-        actions: [
-          Icon(
-            Icons.more_horiz,
-            color: Colors.black,
-          )
-        ],
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -145,11 +144,16 @@ class _CartScreenState extends State<CartScreen> {
                 ? ListView.builder(
                     itemCount: snapshot.data.length,
                     shrinkWrap: true,
-                    itemBuilder: (context, index) => _foodCard(
+                    itemBuilder: (context, index) {     
+                      return  _foodCard(
                           name: snapshot.data[index].data()['title'],
                           price: double.parse(snapshot.data[index].data()['price']),
                           img: snapshot.data[index].data()['image'],
-                        ))
+                          countItem: int.parse(snapshot.data[index].data()['count']),
+                     
+                        );
+                    }
+                        )
                 : Center(
                     child: Container(),
                   ),
@@ -187,27 +191,11 @@ class _CartScreenState extends State<CartScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "Sub total",
+                        "Total items",
                         style: TextStyle(fontSize: 20),
                       ),
                       Text(
-                        "\$ ${subTotal.toStringAsFixed(2)}",
-                        style: TextStyle(fontSize: 20),
-                      ),
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Shipping",
-                        style: TextStyle(fontSize: 20),
-                      ),
-                      Text(
-                        "\$ $shipping",
+                        "$totalItems",
                         style: TextStyle(fontSize: 20),
                       ),
                     ],
@@ -224,7 +212,7 @@ class _CartScreenState extends State<CartScreen> {
                         style: TextStyle(fontSize: 20),
                       ),
                       Text(
-                        "\$ ${total.toStringAsFixed(2)}",
+                        "\$ ${totalPrice.toStringAsFixed(2)}",
                         style: TextStyle(fontSize: 20, color: Color(0xfffa9f15)),
                       ),
                     ],
@@ -235,7 +223,7 @@ class _CartScreenState extends State<CartScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     Text(
-                      "\$${total.toStringAsFixed(2)}",
+                      "\$${totalPrice.toStringAsFixed(2)}",
                       style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
                     ),
                     InkWell(
@@ -243,7 +231,10 @@ class _CartScreenState extends State<CartScreen> {
                         fireStoreDatabaseMethods.deleteCartItem(usernameId);
                         await Navigator.push(
                             context, MaterialPageRoute(builder: (context) => PaymentScreen(total)));
-                        setState(() {});
+                        setState(() {
+                          totalPrice=0;
+                          totalItems=0;
+                        });
                       },
                       child: Container(
                         height: 50,

@@ -237,12 +237,10 @@ class _PaymentScreenState extends State<PaymentScreen> {
                   ),
 
                   InkWell(
-                    onTap: () async{
-
-                       await fireStoreDatabaseMethods.deleteCartItem(usernameId);
+                    onTap: () {
+                        fireStoreDatabaseMethods.deleteCartItem(usernameId);
                         Navigator.push(
                             context, MaterialPageRoute(builder: (context) => SuccessPayment()));
-
                     },
                     child: Padding(
                       padding: const EdgeInsets.all(25),

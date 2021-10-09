@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:food_app/screens/item_details.dart';
 
 class DetailsIcon extends StatelessWidget {
   DetailsIcon({this.icon, this.text = ''});

@@ -7,7 +7,7 @@ class MyProvider extends ChangeNotifier {
   bool selectedFav = false;
   bool selectedCategoryIcon = false;
   int _currentIndex = 0;
-
+  bool isSearch = true;
   get currentIndex => _currentIndex;
 
   set currentIndex(int index) {
@@ -25,7 +25,7 @@ class MyProvider extends ChangeNotifier {
     return height;
   }
 
-  bool isSearch = true;
+  
 
   void isTrue() {
     isSearch = true;
