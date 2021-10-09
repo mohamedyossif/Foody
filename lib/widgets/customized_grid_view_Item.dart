@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:food_app/constants.dart';
 import 'package:food_app/screens/item_details.dart';
 import 'package:provider/provider.dart';
-import 'package:food_app/my_provider.dart';
+import '../services/providers/my_provider.dart';
 
 class CustomizedGridViewItem extends StatelessWidget {
   // String title;
@@ -36,6 +37,13 @@ class CustomizedGridViewItem extends StatelessWidget {
             width: Provider.of<MyProvider>(context).chooseWidth(context) / 1.5,
             height: Provider.of<MyProvider>(context).chooseHeight(context),
             decoration: BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.shade500,
+                  offset: Offset(0, 10), //(x,y)
+                  blurRadius: 10,
+                ),
+              ],
               borderRadius: BorderRadius.circular(10.0),
               color: Colors.grey.shade200,
             ),
@@ -105,7 +113,7 @@ class CustomizedGridViewItem extends StatelessWidget {
           left: 10.0,
           child: Text(
             '\$$price',
-            style: TextStyle(color: Colors.green, fontSize: 18.0, fontWeight: FontWeight.bold),
+            style: TextStyle(color: priceColor, fontSize: 18.0, fontWeight: FontWeight.bold),
           ),
         ),
       ],

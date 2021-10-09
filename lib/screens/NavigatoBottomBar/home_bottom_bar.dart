@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:food_app/constants.dart';
 import 'package:food_app/model/food_list.dart';
-import 'package:food_app/my_provider.dart';
+import '../../services/providers/my_provider.dart';
 import 'package:food_app/services/networking_api.dart';
 import 'package:food_app/widgets/customized_grid_view_Item.dart';
 import 'package:food_app/widgets/search_bar.dart';
 import 'package:provider/provider.dart';
 
-class HomeBar extends StatelessWidget {
+class HomeBottomBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView(
@@ -16,22 +16,22 @@ class HomeBar extends StatelessWidget {
         Text.rich(
           TextSpan(
             children: [
-              TextSpan(text: 'Find The ', style: kTextTitleDecoration),
+              TextSpan(text: 'Find The ', style: kTextTitleDecoration1),
               TextSpan(
                 text: 'Best\nFood',
-                style: TextStyle(fontWeight: FontWeight.w500, color: basicColor, fontSize: 40.0),
+                style: kTextTitleDecoration2,
               ),
-              TextSpan(text: ' Around You!', style: kTextTitleDecoration),
+              TextSpan(text: ' Around You!', style: kTextTitleDecoration1),
             ],
           ),
         ),
-        SizedBox(
+      const  SizedBox(
           height: 10.0,
         ),
         SearchBar(),
         Provider.of<MyProvider>(context).isSearch
-            ? Consumer<MyProvider>(
-                builder: (_, value, child) => Container(
+            ?  /// default Api
+        Container(
                   padding: EdgeInsets.only(bottom: 10.0),
                   height: Provider.of<MyProvider>(context).chooseHeight(context),
                   decoration: BoxDecoration(borderRadius: BorderRadius.circular(10.0)),
@@ -41,7 +41,6 @@ class HomeBar extends StatelessWidget {
                           ? GridView.builder(
                               shrinkWrap: true,
                               itemBuilder: (context, index) {
-                                // String image = snapshot.data[index].image.toString();
                                 return CustomizedGridViewItem(
                                   foodName: snapshot.data[index].title.toString(),
                                   image: snapshot.data[index].image.toString(),
@@ -62,16 +61,16 @@ class HomeBar extends StatelessWidget {
                               ),
                             )
                           : CircularProgressIndicator()),
-                ),
-              )
-            : FutureBuilder<List<FoodList>>(
+                )
+            :
+            /// data from searching
+        FutureBuilder<List<FoodList>>(
                 future: NetworkingAPI.getData(searchId),
                 builder: (context, snapshot) => snapshot.hasData
                     ? GridView.builder(
                         shrinkWrap: true,
                         physics: NeverScrollableScrollPhysics(),
                         itemBuilder: (context, index) {
-                          // String image = snapshot.data[index].image.toString();
                           return CustomizedGridViewItem(
                             foodName: snapshot.data[index].title.toString(),
                             image: snapshot.data[index].image.toString(),

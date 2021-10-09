@@ -1,8 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-import 'constants.dart';
-
 class MyProvider extends ChangeNotifier {
   bool selectedFav = false;
   bool selectedCategoryIcon = false;
@@ -24,9 +22,6 @@ class MyProvider extends ChangeNotifier {
     double height = MediaQuery.of(context).size.height;
     return height;
   }
-
-  
-
   void isTrue() {
     isSearch = true;
     notifyListeners();

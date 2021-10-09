@@ -1,22 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:food_app/constants.dart';
-import 'package:food_app/screens/cart_Screen.dart';
+import 'package:food_app/widgets/custom_button.dart';
+import 'NavigatoBottomBar/cart_Screen.dart';
 import 'package:food_app/screens/succesful_payment.dart';
 
 class PaymentScreen extends StatefulWidget {
   static const String id = 'PaymentScreen';
-  double total;
 
-  PaymentScreen(this.total);
 
   @override
-  _PaymentScreenState createState() => _PaymentScreenState(total);
+  _PaymentScreenState createState() => _PaymentScreenState();
 }
 
 class _PaymentScreenState extends State<PaymentScreen> {
-  double total;
-
-  _PaymentScreenState(this.total);
 
   List<Map<String, dynamic>> cards = [
     {"isSelected": true},
@@ -74,25 +70,6 @@ class _PaymentScreenState extends State<PaymentScreen> {
         ),
         //SingleChildScrollView
         body: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Address',
-                style: TextStyle(
-                  fontSize: 23,
-                ),
-              ),
-              Text(
-                'Change',
-                style: TextStyle(
-                  color: Colors.deepOrange,
-                  fontSize: 15,
-                ),
-              ),
-            ],
-          ),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Container(
@@ -135,7 +112,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                         child: Container(
                           width: 200,
                           child: Text(
-                            "SGT Miranda McAnderson 6543 N 9th Street APO, AA 33608-1234",
+                            addressId,
                             style: TextStyle(fontSize: 13, color: Colors.grey),
                           ),
                         ),
@@ -156,6 +133,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
           Padding(
             padding: const EdgeInsets.only(bottom: 70),
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 _paymentCard(
                   img: "assets/images/mastercard.png",
@@ -179,20 +157,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
             child: Container(
               height: MediaQuery.of(context).size.height / 3,
               width: MediaQuery.of(context).size.width,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.only(
-                  topRight: Radius.circular(20),
-                  topLeft: Radius.circular(20),
-                ),
-                color: Colors.white,
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.shade300,
-                    offset: Offset(0.0, -7), //(x,y)
-                    blurRadius: 15,
-                  ),
-                ],
-              ),
+              decoration: kContainerShadow,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -208,62 +173,32 @@ class _PaymentScreenState extends State<PaymentScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          "Discount",
-                          style: TextStyle(fontSize: 20),
-                        ),
-                        Text(
-                          "\$ 0",
-                          style: TextStyle(fontSize: 20),
-                        ),
-                      ],
-                    ),
-                  ),
-                  //lineeee
-                  Padding(
-                    padding: const EdgeInsets.all(20),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
                           "Total",
-                          style: TextStyle(fontSize: 20),
+                          style: TextStyle(fontSize: 30),
                         ),
                         Text(
-                          "\$${total.toStringAsFixed(2)}",
-                          style: TextStyle(fontSize: 20),
+                          "\$${totalPrice.toStringAsFixed(2)}",
+                          style:
+                          TextStyle(fontSize: 30, color:priceColor,fontWeight: FontWeight.bold),
                         ),
                       ],
                     ),
                   ),
-
-                  InkWell(
-                    onTap: () {
+                  Padding(
+                    padding: const EdgeInsets.all(25),
+                    child:  CustomButton(
+                      text: "Pay Now",
+                      function: () async {
                         fireStoreDatabaseMethods.deleteCartItem(usernameId);
-                        Navigator.push(
-                            context, MaterialPageRoute(builder: (context) => SuccessPayment()));
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(25),
-                      child: Container(
-                        height: 55,
-                        width: 400,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15),
-                          color: Color(0xffF54749),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.shade400,
-                              offset: Offset(0, 15), //(x,y)
-                              blurRadius: 25,
-                            ),
-                          ],
-                        ),
-                        child: Center(
-                            child: Text(
-                          "Pay now",
-                          style: TextStyle(color: Colors.white, fontSize: 25),
-                        )),
-                      ),
+                        await Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => SuccessPayment()));
+                        setState(() {
+                 totalPrice=0;
+                 totalItems=0;
+                        });
+                      },
                     ),
                   ),
                 ],

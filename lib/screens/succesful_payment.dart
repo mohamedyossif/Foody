@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:food_app/screens/home_screen.dart';
 import 'package:food_app/screens/payment_screen.dart';
+import 'package:food_app/widgets/custom_button.dart';
 
 class SuccessPayment extends StatefulWidget {
   static const String id = 'SuccessPayment';
@@ -22,7 +23,7 @@ class _SuccessPaymentState extends State<SuccessPayment> {
         leading: IconButton(
             onPressed: () {
               // Navigator.pushNamed(context, PaymentScreen.id);
-              Navigator.pop(context, MaterialPageRoute(builder: (context) => PaymentScreen(total)));
+              Navigator.pop(context, MaterialPageRoute(builder: (context) => PaymentScreen()));
             },
             icon: Icon(Icons.arrow_back_ios, color: Colors.black)),
         title: Text(
@@ -41,34 +42,14 @@ class _SuccessPaymentState extends State<SuccessPayment> {
               style: TextStyle(color: Colors.black, fontSize: 25, fontWeight: FontWeight.bold),
             ),
           ),
-          Padding(
-            padding: EdgeInsets.symmetric(vertical: 30),
-            child: Container(
-              height: 50,
-              width: 200,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(15),
-                color: Color(0xffF54749),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey,
-                    offset: Offset(0, 7), //(x,y)
-                    blurRadius: 30,
-                  ),
-                ],
-              ),
-              child: Center(
-                  child: Text(
-                "Track order",
-                style: TextStyle(color: Colors.white, fontSize: 20),
-              )),
-            ),
-          ),
+            SizedBox(
+              width: MediaQuery.of(context).size.width /1.5,
+                child: CustomButton(text: 'Track Order', function:null )),
           GestureDetector(
             onTap: () {
-              Navigator.pushNamed(context, HomeScreen.id);
+              Navigator.pushReplacementNamed(context, HomeScreen.id);
             },
-            child: Text(
+            child: const Text(
               'Back to shopping',
               style: TextStyle(
                 color: Color(0xffFA9F15),

@@ -8,7 +8,6 @@ import 'package:delayed_display/delayed_display.dart';
 
 class WelcomeScreen extends StatelessWidget {
   static const String id = 'WelcomeScreen';
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,7 +53,7 @@ class WelcomeScreen extends StatelessWidget {
             ]),
             DelayedDisplay(
               delay: Duration(seconds: 4),
-              child: CustomButton(
+              child:CustomButton(
                   text: 'Get Started',
                   function: () {
                     Navigator.pushNamed(context, SignUpScreen.id);
@@ -65,13 +64,13 @@ class WelcomeScreen extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
+             const  Text(
                     'Already have an account? ',
                     style: TextStyle(
                         color: const Color(0xff040404), fontSize: 20, fontWeight: FontWeight.w500),
                   ),
                   GestureDetector(
-                    child: Text(
+                    child:const Text(
                       'Sign In',
                       style: TextStyle(
                         color: const Color(0xff040404),

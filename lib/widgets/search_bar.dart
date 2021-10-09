@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:food_app/constants.dart';
-import 'package:food_app/my_provider.dart';
+import '../services/providers/my_provider.dart';
 import 'package:provider/provider.dart';
 
 class SearchBar extends StatelessWidget {

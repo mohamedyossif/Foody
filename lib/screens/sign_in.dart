@@ -2,27 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:food_app/constants.dart';
 import 'package:food_app/screens/home_screen.dart';
 import 'package:food_app/services/shared_preferences.dart';
-import 'package:food_app/services/sign_provider.dart';
+import '../services/providers/sign_provider.dart';
 import 'package:food_app/widgets/custom_button.dart';
 import 'package:food_app/widgets/custom_text_field.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:loading_overlay/loading_overlay.dart';
 import 'package:provider/provider.dart';
-import 'package:food_app/services/auth_firebase.dart';
 import 'package:flutter/rendering.dart';
-
-import 'item_details.dart';
 
 class SignInScreen extends StatelessWidget {
   static const String id = 'SignInScreen';
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(create: (_) => SignInProvider(), child: Screen());
+    return ChangeNotifierProvider(create: (_) => SignInProvider(), child: SignInDetails());
   }
 }
 
-class Screen extends StatelessWidget {
+class SignInDetails extends StatelessWidget {
   TextEditingController _email = TextEditingController();
   TextEditingController _password = TextEditingController();
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -41,7 +38,7 @@ class Screen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Text(
+              const  Text(
                   'Welcome Back!',
                   style: TextStyle(
                       color: const Color(0xffD4361C), fontSize: 50, fontWeight: FontWeight.w700),
@@ -62,24 +59,19 @@ class Screen extends StatelessWidget {
                         ]),
                         icon: Icons.email,
                         labelText: 'Email',
-                        // function: (value) {
-                        //   email = value;
-                        // },
                       ),
                       CustomTextField(
                         controller: _password,
                         validator: RequiredValidator(errorText: "Required"),
                         icon: Icons.lock,
                         labelText: 'Password',
+                        prefix: Icons.remove_red_eye_outlined,
                         obscure: true,
-                        // function: (value) {
-                        //   password = value;
-                        // },
                       ),
                     ],
                   ),
                 ),
-                SizedBox(
+              const  SizedBox(
                   height: 100,
                 ),
                 Consumer<SignInProvider>(builder: (_, value, child) {
@@ -88,15 +80,13 @@ class Screen extends StatelessWidget {
                       function: () async {
                         if (_formKey.currentState.validate()) {
                           Provider.of<SignInProvider>(context, listen: false).loading();
-                          await AuthFirebaseMethods()
+                          await authFirebaseMethods
                               .signInWithEmailAndPassword(context, _email.text, _password.text);
-
                           /// save state of screen
                           SharedPreferencesDatabase.saveUserLoggedInKey(true);
-
-                          /// get username by email
                           fireStoreDatabaseMethods.searchEmail(_email.text).then((value) {
                             SharedPreferencesDatabase.saveUserNameKey(value[0].data()['username']);
+                            SharedPreferencesDatabase.saveAddressKey(value[0].data()['address']);
                           });
                           Navigator.pushReplacementNamed(context, HomeScreen.id);
                           Provider.of<SignInProvider>(context, listen: false).signed();

@@ -1,21 +1,23 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:food_app/constants.dart';
-import 'package:food_app/screens/NavigatorBar/homeBottom.dart';
-import 'package:food_app/screens/cart_Screen.dart';
-import 'package:food_app/screens/profile_screen.dart';
+import 'NavigatoBottomBar/cart_Screen.dart';
+import 'NavigatoBottomBar/profile_screen.dart';
 import 'package:food_app/services/shared_preferences.dart';
 import 'package:provider/provider.dart';
-
-import '../my_provider.dart';
+import '../services/providers/my_provider.dart';
+import 'NavigatoBottomBar/home_bottom_bar.dart';
 
 class HomeScreen extends StatelessWidget {
   static const String id = 'HomeScreen';
   final bool selected = false;
-  getUserName() async {
-    usernameId = await SharedPreferencesDatabase.getUserNameKey();
-  }
+  final List screensBar = [HomeBottomBar(), CartScreen(), ProfileScreen()];
 
+  /// get username from local data base
+  void getUserName() async {
+    usernameId = await SharedPreferencesDatabase.getUserNameKey();
+    addressId=await SharedPreferencesDatabase.getAddressKey();
+  }
   @override
   Widget build(BuildContext context) {
     getUserName();
@@ -44,6 +46,4 @@ class HomeScreen extends StatelessWidget {
           )),
     );
   }
-
-  List screensBar = [HomeBar(), CartScreen(), ProfileScreen()];
 }

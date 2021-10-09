@@ -14,7 +14,14 @@ class CustomButton extends StatelessWidget {
         margin: EdgeInsets.all(10),
         decoration: BoxDecoration(
             color: Color(0xffF54749),
-            borderRadius: BorderRadius.circular(10.0)),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.shade400,
+                offset: Offset(0, 15), //(x,y)
+                blurRadius: 25,
+              ),
+            ],
+            borderRadius: BorderRadius.circular(15.0)),
         child: Text(
           text,
           style: TextStyle(

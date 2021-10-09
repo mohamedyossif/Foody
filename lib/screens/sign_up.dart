@@ -1,14 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:food_app/constants.dart';
-import 'package:food_app/screens/welcome.dart';
-import 'package:food_app/services/dataBase.dart';
+import 'package:food_app/screens/home_screen.dart';
 import 'package:food_app/services/shared_preferences.dart';
 import 'package:food_app/widgets/custom_button.dart';
-import 'package:food_app/screens/home_screen.dart';
+import 'package:food_app/widgets/custom_snackBar.dart';
 import '../widgets/custom_text_field.dart';
-import 'package:food_app/services/auth_firebase.dart';
-import 'package:food_app/services/sign_provider.dart';
+import '../services/providers/sign_provider.dart';
 import 'package:loading_overlay/loading_overlay.dart';
 import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
@@ -22,14 +20,12 @@ class SignUpScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<SignUpProvider>(create: (_) => SignUpProvider(), child: Screen());
+    return ChangeNotifierProvider<SignUpProvider>(create: (_) => SignUpProvider(), child: SignUpDetails());
   }
 }
 
-class Screen extends StatelessWidget {
-  bool isLoading = false;
-  AuthFirebaseMethods authFirebaseMethods = AuthFirebaseMethods();
-  FireStoreDatabaseMethods fireStoreDatabaseMethods = FireStoreDatabaseMethods();
+class SignUpDetails extends StatelessWidget {
+
   TextEditingController _userName = TextEditingController();
   TextEditingController _address = TextEditingController();
   TextEditingController _phone = TextEditingController();
@@ -37,24 +33,12 @@ class Screen extends StatelessWidget {
   TextEditingController _password = TextEditingController();
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  void buildSnackBar(BuildContext context, String message) {
-    final snackBar = SnackBar(
-      content: Text('$message'),
-      action: SnackBarAction(
-        label: 'Undo',
-        onPressed: () {},
-      ),
-    );
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
-  }
 
-  /// check username is valid or not.
-  checkUsersName() async {
-    await fireStoreDatabaseMethods
-        .searchUserName(_userName.text)
-        .then((value) => resultOfUserName = value);
-  }
 
+  /// check username and email are valid or not.
+   checkUsersName() async {
+    await fireStoreDatabaseMethods.searchUserName(_userName.text).then((value) => resultOfUserName = value);
+  }
   checkEmail() async {
     await fireStoreDatabaseMethods.searchEmail(_email.text).then((List<QueryDocumentSnapshot> value) => resultOfEmail = value.length);
   }
@@ -73,10 +57,9 @@ class Screen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Text(
+               const Text(
                   'Welcome!',
-                  style: TextStyle(
-                      color: const Color(0xffD4361C), fontSize: 50, fontWeight: FontWeight.w700),
+                  style: TextStyle(color: const Color(0xffD4361C), fontSize: 50, fontWeight: FontWeight.w700),
                 ),
                 Padding(
                     padding: const EdgeInsets.all(30),
@@ -88,8 +71,7 @@ class Screen extends StatelessWidget {
                       CustomTextField(
                         controller: _userName,
                         validator: MultiValidator([
-                          RequiredValidator(errorText: "Required"),
-                          //TODO: custom validator for users
+                          RequiredValidator(errorText: "Required")
                         ]),
                         icon: Icons.person,
                         labelText: 'Username',
@@ -100,7 +82,6 @@ class Screen extends StatelessWidget {
                         validator: RequiredValidator(errorText: "Required"),
                         icon: Icons.home,
                         labelText: 'Address',
-
                       ),
                       CustomTextField(
                         controller: _phone,
@@ -111,7 +92,6 @@ class Screen extends StatelessWidget {
                         ]),
                         icon: Icons.phone,
                         labelText: 'Mobile number',
-
                       ),
                       CustomTextField(
                         controller: _email,
@@ -121,7 +101,6 @@ class Screen extends StatelessWidget {
                         ]),
                         icon: Icons.email,
                         labelText: 'Email',
-
                       ),
                       CustomTextField(
                         controller: _password,
@@ -137,9 +116,7 @@ class Screen extends StatelessWidget {
                         icon: Icons.lock,
                         labelText: 'Password',
                         obscure: true,
-                        // function: (value) {
-                        //   password = value;
-                        // },
+                        prefix: Icons.remove_red_eye_outlined,
                       ),
                     ],
                   ),
@@ -159,11 +136,11 @@ class Screen extends StatelessWidget {
                           buildSnackBar(context, 'Email is not available');
                         } else if (_formKey.currentState.validate()) {
                           Provider.of<SignUpProvider>(context, listen: false).loading();
-                          await AuthFirebaseMethods().signUpWithEmailAndPassword(_email.text, _password.text);
+                          await authFirebaseMethods.signUpWithEmailAndPassword(_email.text, _password.text);
                           /// save state of screen
                           SharedPreferencesDatabase.saveUserLoggedInKey(true);
-                          ///save username
                           SharedPreferencesDatabase.saveUserNameKey(_userName.text);
+                          SharedPreferencesDatabase.saveAddressKey(_address.text);
                           Map<String, dynamic> userInfo = {
                             'address': _address.text,
                             'email': _email.text,

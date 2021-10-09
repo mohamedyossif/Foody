@@ -1,33 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:food_app/screens/cart_Screen.dart';
-import 'package:food_app/screens/profile_screen.dart';
+import 'package:food_app/screens/home_screen.dart';
+import 'screens/NavigatoBottomBar/cart_Screen.dart';
+import 'screens/NavigatoBottomBar/profile_screen.dart';
 import 'package:food_app/screens/succesful_payment.dart';
 import 'package:food_app/services/shared_preferences.dart';
 import 'screens/welcome.dart';
 import 'screens/sign_up.dart';
 import 'screens/sign_in.dart';
 import 'screens/item_details.dart';
-import 'package:food_app/screens/home_screen.dart';
 import 'package:provider/provider.dart';
-import 'my_provider.dart';
+import 'services/providers/my_provider.dart';
 
-bool isCkeck = false;
+bool isCheck = false;
 
 main() async {
+  /// connection with firebase
   WidgetsFlutterBinding.ensureInitialized();
-
+  await Firebase.initializeApp();
   /// check state of screen
   await SharedPreferencesDatabase.getUserLoggedInKey()
-      /// first case ,isCkeck is false
-      .then((value) => isCkeck = value ?? false);
-  // SystemChrome.setPreferredOrientations(
-  //     [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
-  await Firebase.initializeApp();
+      /// first case ,isCheck is false
+      .then((value) => isCheck = value ?? false);
   runApp(MyApp());
 }
-
-
 
 class MyApp extends StatelessWidget {
   @override
@@ -46,8 +42,8 @@ class MyApp extends StatelessWidget {
           CartScreen.id: (context) => CartScreen(),
           SuccessPayment.id: (context) => SuccessPayment()
         },
-         initialRoute: isCkeck ? HomeScreen.id : WelcomeScreen.id,
-       // initialRoute: HomeScreen.id,
+        initialRoute: isCheck ? HomeScreen.id : WelcomeScreen.id,
+
       ),
     );
   }

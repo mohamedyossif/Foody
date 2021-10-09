@@ -3,8 +3,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/widgets.dart';
-import 'package:food_app/screens/cart_Screen.dart';
-import 'package:food_app/services/height_provider.dart';
+import 'NavigatoBottomBar/cart_Screen.dart';
+import 'package:food_app/services/providers/counter_provider.dart';
+import '../services/providers/height_provider.dart';
 import 'package:food_app/widgets/custom_button.dart';
 import 'package:food_app/widgets/details_icon.dart';
 import 'package:food_app/widgets/item_count_button.dart';
@@ -129,6 +130,8 @@ class Screen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     count = Provider.of<CounterProvider>(context).itemCount;
+    print(count);
+    print(totalItems);
     return Scaffold(
       backgroundColor: Color(0xffffd04e),
       body: SingleChildScrollView(
@@ -151,17 +154,22 @@ class Screen extends StatelessWidget {
                                 'image': image,
                                 'count': count.toString()
                               };
-                              print(usernameId);
                               await fireStoreDatabaseMethods
                                   .storeCart(usernameId, cartInfo, foodName)
                                   .then((value) {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (c) => CartScreen()));
+                                 if(totalItems==0&&count>0)
+                                   {
+                                     Provider.of<CounterProvider>(context,
+                                         listen: false).reset();
+                                   }
+                                 Navigator.push(
+                                     context,
+                                     MaterialPageRoute(
+                                         builder: (c) => CartScreen()));
+
                               });
                             },
-                          )
+                          ),
                         ],
                       ),
                     ),
@@ -205,13 +213,12 @@ class Screen extends StatelessWidget {
                                   Provider.of<CounterProvider>(context,
                                           listen: false)
                                       .remove();
-                                  totalItems--;
-                                  totalPrice -= double.parse(price);
+                                    totalItems--;
+                                    totalPrice -= double.parse(price);
+
                                 }),
                             Text(
-                              Provider.of<CounterProvider>(context)
-                                  .itemCount
-                                  .toString(),
+                              count.toString(),
                               style: TextStyle(
                                   fontSize: 20, fontWeight: FontWeight.w900),
                             ),
@@ -221,15 +228,15 @@ class Screen extends StatelessWidget {
                                   Provider.of<CounterProvider>(context,
                                           listen: false)
                                       .add();
-                                  totalItems++;
-                                  totalPrice += double.parse(price);
+                                    totalItems++;
+                                    totalPrice += double.parse(price);
                                 }),
                           ],
                         ),
                         Center(
                             child: Text('\$ $price',
                                 style: TextStyle(
-                                    color: Colors.green,
+                                    color: priceColor,
                                     fontSize: 22,
                                     fontWeight: FontWeight.w600))),
                         const SizedBox(height: 10),
@@ -251,9 +258,6 @@ class Screen extends StatelessWidget {
                             trimLines: 3,
                             style: TextStyle(
                                 fontSize: 20, color: Colors.grey[700]),
-                            // colorClickableText: Colors.black,
-                            // lessStyle: TextStyle(fontWeight: FontWeight.w700, color: Colors.black),
-                            // moreStyle: TextStyle(fontWeight: FontWeight.w700, color: Colors.black),
                             callback: (value) {
                               value
                                   ? Provider.of<HeightProvider>(context,

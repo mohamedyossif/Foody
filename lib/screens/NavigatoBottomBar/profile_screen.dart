@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -37,7 +36,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // double width = MediaQuery.of(context).size.width;
     return Scaffold(
       body: SafeArea(
         maintainBottomViewPadding: true,
@@ -73,10 +71,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                 ],
               ),
+              /// get user Information
               FutureBuilder<DocumentSnapshot<Map<String, dynamic>>>(
                 future: fireStoreDatabaseMethods.getUserInformation(usernameId),
                 builder: (c, snapshot) => snapshot.hasData
-                    ? Column(
+                    ?
+                Column(
                         children: [
                           CustomizedInfoItem(
                             icon: Icons.person,
