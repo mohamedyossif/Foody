@@ -18,8 +18,7 @@ class SignInScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-        create: (_) => SignInProvider(), child: Screen());
+    return ChangeNotifierProvider(create: (_) => SignInProvider(), child: Screen());
   }
 }
 
@@ -45,9 +44,7 @@ class Screen extends StatelessWidget {
                 Text(
                   'Welcome Back!',
                   style: TextStyle(
-                      color: const Color(0xffD4361C),
-                      fontSize: 50,
-                      fontWeight: FontWeight.w700),
+                      color: const Color(0xffD4361C), fontSize: 50, fontWeight: FontWeight.w700),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(30),
@@ -61,8 +58,7 @@ class Screen extends StatelessWidget {
                         controller: _email,
                         validator: MultiValidator([
                           RequiredValidator(errorText: "Required"),
-                          EmailValidator(
-                              errorText: "Please enter a valid email address"),
+                          EmailValidator(errorText: "Please enter a valid email address"),
                         ]),
                         icon: Icons.email,
                         labelText: 'Email',
@@ -88,24 +84,19 @@ class Screen extends StatelessWidget {
                       text: 'Sign In',
                       function: () async {
                         if (_formKey.currentState.validate()) {
-                          Provider.of<SignInProvider>(context, listen: false)
-                              .loading();
-                          await AuthFirebaseMethods().signInWithEmailAndPassword(
-                              context, _email.text, _password.text);
+                          Provider.of<SignInProvider>(context, listen: false).loading();
+                          await AuthFirebaseMethods()
+                              .signInWithEmailAndPassword(context, _email.text, _password.text);
 
                           /// save state of screen
                           SharedPreferencesDatabase.saveUserLoggedInKey(true);
 
                           /// get username by email
-                          fireStoreDatabaseMethods
-                              .searchEmail(_email.text)
-                              .then((value) {
-                            SharedPreferencesDatabase.saveUserNameKey(
-                                value[0].data()['username']);
+                          fireStoreDatabaseMethods.searchEmail(_email.text).then((value) {
+                            SharedPreferencesDatabase.saveUserNameKey(value[0].data()['username']);
                           });
                           Navigator.pushReplacementNamed(context, HomeScreen.id);
-                          Provider.of<SignInProvider>(context, listen: false)
-                              .signed();
+                          Provider.of<SignInProvider>(context, listen: false).signed();
                         }
                       });
                 })
