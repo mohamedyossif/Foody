@@ -79,6 +79,9 @@ class Screen extends StatelessWidget {
                     ],
                   ),
                 ),
+                SizedBox(
+                  height: 100,
+                ),
                 Consumer<SignInProvider>(builder: (_, value, child) {
                   return CustomButton(
                       text: 'Sign In',

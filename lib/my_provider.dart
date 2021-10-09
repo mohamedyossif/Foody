@@ -1,6 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
+import 'constants.dart';
+
 class MyProvider extends ChangeNotifier {
   bool selectedFav = false;
   bool selectedCategoryIcon = false;
@@ -12,6 +14,7 @@ class MyProvider extends ChangeNotifier {
     _currentIndex = index;
     notifyListeners();
   }
+
   double chooseWidth(context) {
     double width = MediaQuery.of(context).size.width;
     return width;
@@ -22,15 +25,15 @@ class MyProvider extends ChangeNotifier {
     return height;
   }
 
-  void selectedFavItemFunc() {
-    selectedFav = !selectedFav;
-    print('hello');
+  bool isSearch = true;
+
+  void isTrue() {
+    isSearch = true;
     notifyListeners();
   }
 
-  void selectedCategoryFunc() {
-    selectedCategoryIcon = !selectedCategoryIcon;
-    print('hello');
+  void isFalse() {
+    isSearch = false;
     notifyListeners();
   }
 }

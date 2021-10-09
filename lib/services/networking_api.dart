@@ -17,9 +17,9 @@ class NetworkingAPI {
     // String apiKey='0dd551eef8e2411bb2579e2be36d68a8‏';
     // String apiKey='9f614156175348bc91baf1f3d53ac099‏';
     // String apiKey='82cfbdbfb0a34ea3a047bf5fcc61ae78‏‏';
-    // String apiKey='f89737962fa04c01b2353d0748778186‏';
-    // String apiKey='0dd551eef8e2411bb2579e2be36d68a8‏';
-    String apiKey = '65d9525b0c4a44a4b5b619199fe14ab3';
+    String apiKey = 'f89737962fa04c01b2353d0748778186';
+    // String apiKey = '0dd551eef8e2411bb2579e2be36d68a8';
+    // String apiKey = '65d9525b0c4a44a4b5b619199fe14ab3';
     String uri =
         'https://api.spoonacular.com/recipes/complexSearch?apiKey=$apiKey&query=$query&addRecipeInformation=true&addRecipeNutrition=true&number=$numberOfList';
     try {

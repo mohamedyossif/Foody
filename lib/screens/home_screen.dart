@@ -1,19 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:food_app/constants.dart';
-import 'package:food_app/model/food_list.dart';
 import 'package:food_app/screens/NavigatorBar/homeBottom.dart';
 import 'package:food_app/screens/cart_Screen.dart';
 import 'package:food_app/screens/profile_screen.dart';
-import 'package:food_app/services/networking_api.dart';
 import 'package:food_app/services/shared_preferences.dart';
-import 'package:food_app/widgets/search_bar.dart';
 import 'package:provider/provider.dart';
 
 import '../my_provider.dart';
-import 'package:food_app/widgets/customized_grid_view_Item.dart';
-import 'package:food_app/widgets/customized_category_item.dart';
 
 class HomeScreen extends StatelessWidget {
   static const String id = 'HomeScreen';
@@ -45,10 +39,11 @@ class HomeScreen extends StatelessWidget {
                 label: 'Profile',
               ),
             ],
-            currentIndex:provider.currentIndex,
-            onTap: (index)=>provider.currentIndex=index,
+            currentIndex: provider.currentIndex,
+            onTap: (index) => provider.currentIndex = index,
           )),
     );
   }
-  List screensBar=[HomeBar(),CartScreen(),ProfileScreen()];
+
+  List screensBar = [HomeBar(), CartScreen(), ProfileScreen()];
 }

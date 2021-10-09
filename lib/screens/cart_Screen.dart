@@ -1,9 +1,13 @@
-import"package:flutter/material.dart";
-import 'package:food_app/screens/cart_payment/payment_screen.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import "package:flutter/material.dart";
+import 'package:food_app/screens/payment_screen.dart';
+
+import '../constants.dart';
 
 class CartScreen extends StatefulWidget {
   static const String id = 'CartScreen';
   int count;
+
   CartScreen({this.count});
 
   @override
@@ -11,14 +15,12 @@ class CartScreen extends StatefulWidget {
 }
 
 class _CartScreenState extends State<CartScreen> {
-
   int numOfOrder = 1;
-  double endPrice= 0;
+  double endPrice = 0;
   double subTotal = 9.9;
-  double shipping =3.00;
-  double total= 0;
-  bool isSelected= true;
-
+  double shipping = 3.00;
+  double total = 0;
+  bool isSelected = true;
 
   _foodCard({String name, double price, String img}) {
     return Padding(
@@ -26,35 +28,13 @@ class _CartScreenState extends State<CartScreen> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          InkWell(
-            onTap: (){
-              setState(() {
-                if(isSelected== true){
-                  isSelected = false;
-                  total = total - price;
-                  shipping = 0;
-                  numOfOrder=0;
-                }
-                else{
-                  isSelected = true;
-                  total = total + price;
-                  numOfOrder = 1;
-
-                }
-              });
-            },
-            child: Container(
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.orange),
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Icon(
-                Icons.check_box_rounded,
-                color: isSelected?Colors.orange:Colors.transparent,
-                size: 30,
-              ),
-            ),
+          Icon(
+            Icons.check_box_rounded,
+            color: isSelected ? Colors.orange : Colors.transparent,
+            size: 30,
           ),
+          // ),
+          // ),
           Container(
             padding: EdgeInsets.all(8.0),
             width: 300,
@@ -85,28 +65,40 @@ class _CartScreenState extends State<CartScreen> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Padding(
-                      padding: EdgeInsets.all(5),
+                    Container(
+                      padding: EdgeInsets.symmetric(horizontal: 15),
+                      width: MediaQuery.of(context).size.width * 45 / 100,
                       child: Text(
                         name,
-                        style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xffF54749),
+                        ),
                       ),
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.all(5),
-                          child: Text(
+                    Container(
+                      padding: EdgeInsets.symmetric(vertical: 5, horizontal: 11),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
                             " \$$price",
-                            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                            style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: Color(0xff64941b)),
                           ),
-                        ),
-                        Text(
-                          " ${widget.count??1}",
-                          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                        ),
-                      ],
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width * 5 / 100,
+                          ),
+                          Text(
+                            "${widget.count} items",
+                            style: TextStyle(
+                                fontSize: 15, fontWeight: FontWeight.w600, color: Colors.black),
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),
@@ -117,7 +109,6 @@ class _CartScreenState extends State<CartScreen> {
       ),
     );
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -148,20 +139,21 @@ class _CartScreenState extends State<CartScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Expanded(
-            child: FutureBuilder<List<QueryDocumentSnapshot<Map<String, dynamic>>>>(
-              future: fireStoreDatabaseMethods.getCart(usernameId),
-              builder: (context,snapshot)=>snapshot.hasData?ListView.builder(
-                itemCount: snapshot.data.length,
-                  shrinkWrap: true,
-                  itemBuilder:(context,index)=>_foodCard(
-                    name: snapshot.data[index].data()['title'],
-                    price: double.parse(snapshot.data[index].data()['price']),
-                    img: snapshot.data[index].data()['image'],
-                  )
-              ):Center(child: Container(),),
-
-            )
-          ),
+              child: FutureBuilder<List<QueryDocumentSnapshot<Map<String, dynamic>>>>(
+            future: fireStoreDatabaseMethods.getCart(usernameId),
+            builder: (context, snapshot) => snapshot.hasData
+                ? ListView.builder(
+                    itemCount: snapshot.data.length,
+                    shrinkWrap: true,
+                    itemBuilder: (context, index) => _foodCard(
+                          name: snapshot.data[index].data()['title'],
+                          price: double.parse(snapshot.data[index].data()['price']),
+                          img: snapshot.data[index].data()['image'],
+                        ))
+                : Center(
+                    child: Container(),
+                  ),
+          )),
           Container(
             height: MediaQuery.of(context).size.height / 2,
             width: MediaQuery.of(context).size.width,
@@ -180,7 +172,6 @@ class _CartScreenState extends State<CartScreen> {
               ],
             ),
             child: Column(
-
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 // _coupon(),
@@ -248,11 +239,11 @@ class _CartScreenState extends State<CartScreen> {
                       style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
                     ),
                     InkWell(
-                      onTap: () {
-                        setState(() {
-                          Navigator.push(
-                              context, MaterialPageRoute(builder: (context) => PaymentScreen(total)));
-                        });
+                      onTap: () async {
+                        fireStoreDatabaseMethods.deleteCartItem(usernameId);
+                        await Navigator.push(
+                            context, MaterialPageRoute(builder: (context) => PaymentScreen(total)));
+                        setState(() {});
                       },
                       child: Container(
                         height: 50,
