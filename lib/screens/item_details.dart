@@ -163,8 +163,6 @@ class Screen extends StatelessWidget {
                                 await fireStoreDatabaseMethods
                                     .storeCart(usernameId, cartInfo, foodName)
                                     .then((value) {
-                                  Provider.of<CounterProvider>(context, listen: false).reset();
-
                                   if (totalItems != 0) {
                                     Navigator.push(
                                         context, MaterialPageRoute(builder: (c) => CartScreen()));
@@ -209,8 +207,6 @@ class Screen extends StatelessWidget {
                               ItemCountButton(
                                   icon: Icons.indeterminate_check_box,
                                   function: () {
-                                    Provider.of<CounterProvider>(context, listen: false).reset();
-
                                     Provider.of<CounterProvider>(context, listen: false).remove();
                                     totalPrice -= double.parse(price);
                                   }),
@@ -221,7 +217,6 @@ class Screen extends StatelessWidget {
                               ItemCountButton(
                                   icon: Icons.add_box,
                                   function: () {
-                                    Provider.of<CounterProvider>(context, listen: false).reset();
                                     Provider.of<CounterProvider>(context, listen: false).add();
 
                                     totalPrice += double.parse(price);
