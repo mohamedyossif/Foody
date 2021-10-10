@@ -22,6 +22,7 @@ class MyProvider extends ChangeNotifier {
     double height = MediaQuery.of(context).size.height;
     return height;
   }
+
   void isTrue() {
     isSearch = true;
     notifyListeners();

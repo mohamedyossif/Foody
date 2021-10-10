@@ -20,12 +20,12 @@ class SignUpScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<SignUpProvider>(create: (_) => SignUpProvider(), child: SignUpDetails());
+    return ChangeNotifierProvider<SignUpProvider>(
+        create: (_) => SignUpProvider(), child: SignUpDetails());
   }
 }
 
 class SignUpDetails extends StatelessWidget {
-
   TextEditingController _userName = TextEditingController();
   TextEditingController _address = TextEditingController();
   TextEditingController _phone = TextEditingController();
@@ -33,14 +33,17 @@ class SignUpDetails extends StatelessWidget {
   TextEditingController _password = TextEditingController();
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-
-
   /// check username and email are valid or not.
-   checkUsersName() async {
-    await fireStoreDatabaseMethods.searchUserName(_userName.text).then((value) => resultOfUserName = value);
+  checkUsersName() async {
+    await fireStoreDatabaseMethods
+        .searchUserName(_userName.text)
+        .then((value) => resultOfUserName = value);
   }
+
   checkEmail() async {
-    await fireStoreDatabaseMethods.searchEmail(_email.text).then((List<QueryDocumentSnapshot> value) => resultOfEmail = value.length);
+    await fireStoreDatabaseMethods
+        .searchEmail(_email.text)
+        .then((List<QueryDocumentSnapshot> value) => resultOfEmail = value.length);
   }
 
   @override
@@ -57,9 +60,10 @@ class SignUpDetails extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-               const Text(
+                const Text(
                   'Welcome!',
-                  style: TextStyle(color: const Color(0xffD4361C), fontSize: 50, fontWeight: FontWeight.w700),
+                  style: TextStyle(
+                      color: const Color(0xffD4361C), fontSize: 50, fontWeight: FontWeight.w700),
                 ),
                 Padding(
                     padding: const EdgeInsets.all(30),
@@ -70,12 +74,9 @@ class SignUpDetails extends StatelessWidget {
                     children: [
                       CustomTextField(
                         controller: _userName,
-                        validator: MultiValidator([
-                          RequiredValidator(errorText: "Required")
-                        ]),
+                        validator: MultiValidator([RequiredValidator(errorText: "Required")]),
                         icon: Icons.person,
                         labelText: 'Username',
-
                       ),
                       CustomTextField(
                         controller: _address,
@@ -127,6 +128,7 @@ class SignUpDetails extends StatelessWidget {
                       function: () async {
                         await checkUsersName();
                         await checkEmail();
+
                         ///check user or email is exist or not
                         if (resultOfUserName != 0 && resultOfEmail != 0) {
                           buildSnackBar(context, 'Email and username are not available');
@@ -136,20 +138,24 @@ class SignUpDetails extends StatelessWidget {
                           buildSnackBar(context, 'Email is not available');
                         } else if (_formKey.currentState.validate()) {
                           Provider.of<SignUpProvider>(context, listen: false).loading();
-                          await authFirebaseMethods.signUpWithEmailAndPassword(_email.text, _password.text);
+                          await authFirebaseMethods.signUpWithEmailAndPassword(
+                              _email.text, _password.text);
+
                           /// save state of screen
                           SharedPreferencesDatabase.saveUserLoggedInKey(true);
-                          SharedPreferencesDatabase.saveUserNameKey(_userName.text);
-                          SharedPreferencesDatabase.saveAddressKey(_address.text);
+                          await SharedPreferencesDatabase.saveUserNameKey(_userName.text);
+                          await SharedPreferencesDatabase.saveAddressKey(_address.text);
                           Map<String, dynamic> userInfo = {
                             'address': _address.text,
                             'email': _email.text,
                             'phone': _phone.text,
                             'username': _userName.text,
                           };
+
                           ///store ur data in FireStore
                           fireStoreDatabaseMethods.upLoadProfile(userInfo, _userName.text);
-                         Navigator.pushReplacementNamed(context, HomeScreen.id);
+
+                          Navigator.pushReplacementNamed(context, HomeScreen.id);
                           Provider.of<SignUpProvider>(context, listen: false).signed();
                         }
                       });

@@ -15,12 +15,8 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   File image;
-  List<IconData> icons = [
-    Icons.person,
-    Icons.phone,
-    Icons.email,
-    Icons.location_on
-  ];
+  List<IconData> icons = [Icons.person, Icons.phone, Icons.email, Icons.location_on];
+
   Future pickImage() async {
     try {
       final image = await ImagePicker().pickImage(source: ImageSource.gallery);
@@ -71,12 +67,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                 ],
               ),
+
               /// get user Information
               FutureBuilder<DocumentSnapshot<Map<String, dynamic>>>(
                 future: fireStoreDatabaseMethods.getUserInformation(usernameId),
-                builder: (c, snapshot) => snapshot.hasData
-                    ?
-                Column(
+                builder: (c, snapshot) =>
+                snapshot.hasData
+                    ? Column(
                         children: [
                           CustomizedInfoItem(
                             icon: Icons.person,
@@ -96,7 +93,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ),
                         ],
                       )
-                    : Container(),
+                    : Center(child: CircularProgressIndicator()),
               ),
             ],
           ),

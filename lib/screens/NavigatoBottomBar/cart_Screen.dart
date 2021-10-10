@@ -20,6 +20,12 @@ class _CartScreenState extends State<CartScreen> {
   bool isSelected = true;
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
@@ -44,8 +50,7 @@ class _CartScreenState extends State<CartScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Expanded(
-              child: FutureBuilder<
-                  List<QueryDocumentSnapshot<Map<String, dynamic>>>>(
+              child: FutureBuilder<List<QueryDocumentSnapshot<Map<String, dynamic>>>>(
             future: fireStoreDatabaseMethods.getCart(usernameId),
             builder: (context, snapshot) => snapshot.hasData
                 ? ListView.builder(
@@ -54,11 +59,9 @@ class _CartScreenState extends State<CartScreen> {
                     itemBuilder: (context, index) {
                       return FoodCard(
                         name: snapshot.data[index].data()['title'],
-                        price:
-                            double.parse(snapshot.data[index].data()['price']),
+                        price: double.parse(snapshot.data[index].data()['price']),
                         img: snapshot.data[index].data()['image'],
-                        countItem:
-                            int.parse(snapshot.data[index].data()['count']),
+                        countItem: int.parse(snapshot.data[index].data()['count']),
                       );
                     })
                 : Center(
@@ -83,13 +86,14 @@ class _CartScreenState extends State<CartScreen> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                    const  Text(
+                      const Text(
                         "Total items",
                         style: TextStyle(fontSize: 25),
                       ),
                       Text(
                         "$totalItems",
-                        style: TextStyle(fontSize: 25,color: basicColor,fontWeight: FontWeight.bold),
+                        style:
+                            TextStyle(fontSize: 25, color: basicColor, fontWeight: FontWeight.bold),
                       ),
                     ],
                   ),
@@ -106,7 +110,7 @@ class _CartScreenState extends State<CartScreen> {
                       Text(
                         "\$${totalPrice.toStringAsFixed(2)}",
                         style:
-                            TextStyle(fontSize: 30, color:priceColor,fontWeight: FontWeight.bold),
+                            TextStyle(fontSize: 30, color: priceColor, fontWeight: FontWeight.bold),
                       ),
                     ],
                   ),
@@ -114,14 +118,12 @@ class _CartScreenState extends State<CartScreen> {
                 CustomButton(
                   text: "Pay",
                   function: () async {
-                 fireStoreDatabaseMethods.deleteCartItem(usernameId);
+                    fireStoreDatabaseMethods.deleteCartItem(usernameId);
                     await Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => PaymentScreen()));
+                        context, MaterialPageRoute(builder: (context) => PaymentScreen()));
                     setState(() {
                       totalPrice = 0;
-                       totalItems = 0;
+                      totalItems = 0;
                     });
                   },
                 ),

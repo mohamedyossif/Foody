@@ -16,8 +16,10 @@ class HomeScreen extends StatelessWidget {
   /// get username from local data base
   void getUserName() async {
     usernameId = await SharedPreferencesDatabase.getUserNameKey();
-    addressId=await SharedPreferencesDatabase.getAddressKey();
+    addressId = await SharedPreferencesDatabase.getAddressKey();
+    print(usernameId);
   }
+
   @override
   Widget build(BuildContext context) {
     getUserName();

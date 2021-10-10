@@ -38,7 +38,7 @@ class SignInDetails extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-              const  Text(
+                const Text(
                   'Welcome Back!',
                   style: TextStyle(
                       color: const Color(0xffD4361C), fontSize: 50, fontWeight: FontWeight.w700),
@@ -71,7 +71,7 @@ class SignInDetails extends StatelessWidget {
                     ],
                   ),
                 ),
-              const  SizedBox(
+                const SizedBox(
                   height: 100,
                 ),
                 Consumer<SignInProvider>(builder: (_, value, child) {
@@ -80,15 +80,19 @@ class SignInDetails extends StatelessWidget {
                       function: () async {
                         if (_formKey.currentState.validate()) {
                           Provider.of<SignInProvider>(context, listen: false).loading();
-                          await authFirebaseMethods
-                              .signInWithEmailAndPassword(context, _email.text, _password.text);
+                          await authFirebaseMethods.signInWithEmailAndPassword(
+                              context, _email.text, _password.text);
+
                           /// save state of screen
                           SharedPreferencesDatabase.saveUserLoggedInKey(true);
-                          fireStoreDatabaseMethods.searchEmail(_email.text).then((value) {
-                            SharedPreferencesDatabase.saveUserNameKey(value[0].data()['username']);
-                            SharedPreferencesDatabase.saveAddressKey(value[0].data()['address']);
+                          fireStoreDatabaseMethods.searchEmail(_email.text).then((value) async {
+                            await SharedPreferencesDatabase.saveUserNameKey(
+                                value[0].data()['username']);
+                            await SharedPreferencesDatabase.saveAddressKey(
+                                value[0].data()['address']);
+                            Navigator.pushReplacementNamed(context, HomeScreen.id);
                           });
-                          Navigator.pushReplacementNamed(context, HomeScreen.id);
+
                           Provider.of<SignInProvider>(context, listen: false).signed();
                         }
                       });

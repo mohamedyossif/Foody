@@ -18,8 +18,10 @@ main() async {
   /// connection with firebase
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+
   /// check state of screen
   await SharedPreferencesDatabase.getUserLoggedInKey()
+
       /// first case ,isCheck is false
       .then((value) => isCheck = value ?? false);
   runApp(MyApp());
@@ -43,7 +45,6 @@ class MyApp extends StatelessWidget {
           SuccessPayment.id: (context) => SuccessPayment()
         },
         initialRoute: isCheck ? HomeScreen.id : WelcomeScreen.id,
-
       ),
     );
   }
