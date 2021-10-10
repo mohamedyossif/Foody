@@ -3,6 +3,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:food_app/constants.dart';
+import 'package:food_app/screens/welcome.dart';
+import 'package:food_app/services/shared_preferences.dart';
+import 'package:food_app/widgets/custom_button.dart';
 import 'package:food_app/widgets/customized_info_item.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -71,8 +74,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               /// get user Information
               FutureBuilder<DocumentSnapshot<Map<String, dynamic>>>(
                 future: fireStoreDatabaseMethods.getUserInformation(usernameId),
-                builder: (c, snapshot) =>
-                snapshot.hasData
+                builder: (c, snapshot) => snapshot.hasData
                     ? Column(
                         children: [
                           CustomizedInfoItem(
@@ -91,6 +93,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             icon: Icons.location_on,
                             label: snapshot.data.data()['address'],
                           ),
+                          CustomButton(
+                              text: 'Sign Out',
+                              function: () {
+                                authFirebaseMethods.signOut().then((value) {
+                                  SharedPreferencesDatabase.saveUserLoggedInKey(false);
+                                  Navigator.pushReplacementNamed(context, WelcomeScreen.id);
+                                });
+                              })
                         ],
                       )
                     : Center(child: CircularProgressIndicator()),

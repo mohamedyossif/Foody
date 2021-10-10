@@ -80,19 +80,21 @@ class SignInDetails extends StatelessWidget {
                       function: () async {
                         if (_formKey.currentState.validate()) {
                           Provider.of<SignInProvider>(context, listen: false).loading();
-                          await authFirebaseMethods.signInWithEmailAndPassword(
-                              context, _email.text, _password.text);
-
-                          /// save state of screen
-                          SharedPreferencesDatabase.saveUserLoggedInKey(true);
-                          fireStoreDatabaseMethods.searchEmail(_email.text).then((value) async {
-                            await SharedPreferencesDatabase.saveUserNameKey(
-                                value[0].data()['username']);
-                            await SharedPreferencesDatabase.saveAddressKey(
-                                value[0].data()['address']);
-                            Navigator.pushReplacementNamed(context, HomeScreen.id);
+                          await authFirebaseMethods
+                              .signInWithEmailAndPassword(context, _email.text, _password.text)
+                              .then((value) {
+                            if (value != null) {
+                              /// save state of screen
+                              SharedPreferencesDatabase.saveUserLoggedInKey(true);
+                              fireStoreDatabaseMethods.searchEmail(_email.text).then((value) async {
+                                await SharedPreferencesDatabase.saveUserNameKey(
+                                    value[0].data()['username']);
+                                await SharedPreferencesDatabase.saveAddressKey(
+                                    value[0].data()['address']);
+                                Navigator.pushReplacementNamed(context, HomeScreen.id);
+                              });
+                            }
                           });
-
                           Provider.of<SignInProvider>(context, listen: false).signed();
                         }
                       });
